@@ -22,4 +22,8 @@ public class Entities {
 	public JSONArray getURLs(){
 		return urls;
 	}
+	
+	public JSONArray getHashtags(){
+		return hashtags;
+	}
 }

@@ -6,11 +6,13 @@ import org.json.JSONObject;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ClickableSpan;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -68,7 +70,10 @@ public class Tweet {
 		try {
 			JSONObject c;
 			JSONArray urls = entities.getURLs();
+			JSONArray hashtags = entities.getHashtags();
 			Spannable WordtoSpan = null;
+			
+			
 			if (urls.length() == 0) {
 				WordtoSpan = new SpannableString(text);
 			} else {
@@ -97,11 +102,24 @@ public class Tweet {
 
 						}
 					};
-
+					
 					WordtoSpan.setSpan(clickableSpan, begin, end,
 							Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+					
+					
+					
 				}
 
+			}
+			if(hashtags!= null){
+			for(int h = 0; h< hashtags.length();h++){
+				JSONObject hashtag = hashtags.getJSONObject(h);
+				JSONArray indices = hashtag.getJSONArray("indices");
+				int begin = indices.getInt(0);
+				int end = indices.getInt(1);
+				WordtoSpan.setSpan(new ForegroundColorSpan(Color.BLUE), begin+1, end,
+						Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+			}
 			}
 			return WordtoSpan;
 		} catch (JSONException e) {
