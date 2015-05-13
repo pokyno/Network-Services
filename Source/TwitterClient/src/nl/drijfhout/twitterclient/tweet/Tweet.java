@@ -1,5 +1,10 @@
 package nl.drijfhout.twitterclient.tweet;
 
+import java.util.ArrayList;
+
+import nl.drijfhout.twitterclient.tweet.entities.Hashtags_Entity;
+import nl.drijfhout.twitterclient.tweet.entities.Url_Entity;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -67,65 +72,59 @@ public class Tweet {
 	}
 
 	private Spannable spanText(String text) {
-		try {
-			JSONObject c;
-			JSONArray urls = entities.getURLs();
-			JSONArray hashtags = entities.getHashtags();
-			Spannable WordtoSpan = null;
-			
-			
-			if (urls.length() == 0) {
+		Spannable WordtoSpan = null;
+		
+		ArrayList<Url_Entity> urls = entities.getUrls();
+		
+		if (urls.size() == 0) {
+			WordtoSpan = new SpannableString(text);
+		} else {
+			for (int j = 0; j < urls.size(); j++) {
+				Url_Entity url = urls.get(j);
+				Log.d("lalalalalalala", url.getUrl());
+				int begin = url.getindice(0);
+				int end = url.getindice(1);
+
 				WordtoSpan = new SpannableString(text);
-			} else {
-				for (int j = 0; j < urls.length(); j++) {
-					c = urls.getJSONObject(j);
-					Log.d("lalalalalalala", c.getString("url"));
-					JSONArray indices = c.getJSONArray("indices");
-					int begin = indices.getInt(0);
-					int end = indices.getInt(1);
 
-					WordtoSpan = new SpannableString(text);
+				ClickableSpan clickableSpan = new ClickableSpan() {
 
-					ClickableSpan clickableSpan = new ClickableSpan() {
+					@Override
+					public void onClick(View widget) {
+						TextView tv = (TextView) widget;
+						Spanned s = (Spanned) tv.getText();
+						int start = s.getSpanStart(this);
+						int end = s.getSpanEnd(this);
+						Spannable url = (Spannable) s.subSequence(start,
+								end);
+						Intent i = new Intent(Intent.ACTION_VIEW);
+						i.setData(Uri.parse(url.toString()));
+						context.startActivity(i);
 
-						@Override
-						public void onClick(View widget) {
-							TextView tv = (TextView) widget;
-							Spanned s = (Spanned) tv.getText();
-							int start = s.getSpanStart(this);
-							int end = s.getSpanEnd(this);
-							Spannable url = (Spannable) s.subSequence(start,
-									end);
-							Intent i = new Intent(Intent.ACTION_VIEW);
-							i.setData(Uri.parse(url.toString()));
-							context.startActivity(i);
-
-						}
-					};
-					
-					WordtoSpan.setSpan(clickableSpan, begin, end,
-							Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-					
-					
-					
-				}
-
-			}
-			if(hashtags!= null){
-			for(int h = 0; h< hashtags.length();h++){
-				JSONObject hashtag = hashtags.getJSONObject(h);
-				JSONArray indices = hashtag.getJSONArray("indices");
-				int begin = indices.getInt(0);
-				int end = indices.getInt(1);
-				WordtoSpan.setSpan(new ForegroundColorSpan(Color.BLUE), begin+1, end,
+					}
+				};
+				
+				WordtoSpan.setSpan(clickableSpan, begin, end,
 						Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+				
+				
+				
 			}
-			}
-			return WordtoSpan;
-		} catch (JSONException e) {
 
 		}
-		return null;
+		
+		ArrayList<Hashtags_Entity> hashtags = entities.getHashtags();
+		
+		if(hashtags!= null){
+		for(int h = 0; h< hashtags.size();h++){
+			Hashtags_Entity hashtag = hashtags.get(h);
+			int begin =  hashtag.getindice(0);
+			int end =	hashtag.getindice(1);
+			WordtoSpan.setSpan(new ForegroundColorSpan(Color.BLUE), begin+1, end,
+					Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+		}
+		}
+		return WordtoSpan;
 
 	}
 
