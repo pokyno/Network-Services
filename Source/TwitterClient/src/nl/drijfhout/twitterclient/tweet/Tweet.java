@@ -4,11 +4,8 @@ import java.util.ArrayList;
 
 import nl.drijfhout.twitterclient.tweet.entities.Hashtags_Entity;
 import nl.drijfhout.twitterclient.tweet.entities.Url_Entity;
-
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -34,8 +31,7 @@ public class Tweet {
 		this.context = context;
 		try {
 			user = new User(tweet.getJSONObject("user"));
-			entities = new Entities(tweet.getJSONObject("entities"));
-
+			entities = new Entities(tweet.getJSONObject("entities")); // fault
 			created_at = tweet.getString("created_at");
 			favorite_count = tweet.getInt("favorite_count");
 			retweet_count = tweet.getInt("retweet_count");
@@ -73,10 +69,10 @@ public class Tweet {
 
 	private Spannable spanText(String text) {
 		Spannable WordtoSpan = null;
-		
+
 		ArrayList<Url_Entity> urls = entities.getUrls();
 		
-		if (urls.size() == 0) {
+		if (urls.size() == 0 || urls == null) {
 			WordtoSpan = new SpannableString(text);
 		} else {
 			for (int j = 0; j < urls.size(); j++) {
@@ -95,35 +91,33 @@ public class Tweet {
 						Spanned s = (Spanned) tv.getText();
 						int start = s.getSpanStart(this);
 						int end = s.getSpanEnd(this);
-						Spannable url = (Spannable) s.subSequence(start,
-								end);
+						Spannable url = (Spannable) s.subSequence(start, end);
 						Intent i = new Intent(Intent.ACTION_VIEW);
 						i.setData(Uri.parse(url.toString()));
 						context.startActivity(i);
 
 					}
 				};
-				
+
 				WordtoSpan.setSpan(clickableSpan, begin, end,
 						Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-				
-				
-				
+
 			}
 
 		}
 		
 		ArrayList<Hashtags_Entity> hashtags = entities.getHashtags();
 		
-		if(hashtags!= null){
-		for(int h = 0; h< hashtags.size();h++){
-			Hashtags_Entity hashtag = hashtags.get(h);
-			int begin =  hashtag.getindice(0);
-			int end =	hashtag.getindice(1);
-			WordtoSpan.setSpan(new ForegroundColorSpan(Color.BLUE), begin+1, end,
-					Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+		if (hashtags != null) {
+			for (int h = 0; h < hashtags.size(); h++) {
+				Hashtags_Entity hashtag = hashtags.get(h);
+				int begin = hashtag.getindice(0);
+				int end = hashtag.getindice(1);
+				WordtoSpan.setSpan(new ForegroundColorSpan(Color.BLUE),
+						begin + 1, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+			}
 		}
-		}
+		
 		return WordtoSpan;
 
 	}

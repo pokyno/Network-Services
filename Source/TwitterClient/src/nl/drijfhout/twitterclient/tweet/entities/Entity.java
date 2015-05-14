@@ -4,6 +4,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.util.Log;
+
 public abstract class Entity {
 	private int[] indices;
 	
@@ -15,7 +17,7 @@ public abstract class Entity {
 			this.indices[1] = indices.getInt(1);
 		} catch (JSONException e) {
 			
-			e.printStackTrace();
+			Log.i("Fail", "fail at entity");
 		}
 	}
 	/**

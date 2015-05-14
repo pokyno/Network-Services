@@ -3,6 +3,8 @@ package nl.drijfhout.twitterclient.tweet.entities;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.util.Log;
+
 public class Hashtags_Entity extends Entity{
 	
 	private String text;
@@ -12,7 +14,7 @@ public class Hashtags_Entity extends Entity{
 		try {
 			this.text = entityObject.getString("text");
 		} catch (JSONException e) {
-			e.printStackTrace();
+			Log.i("Fail", "at hashtag");
 		}
 	}
 

@@ -3,6 +3,8 @@ package nl.drijfhout.twitterclient.tweet.entities;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.util.Log;
+
 public class User_Mentions_Entity extends Entity{
 	private String id_str;
 	private String screen_name;
@@ -16,7 +18,7 @@ public class User_Mentions_Entity extends Entity{
 			this.screen_name = entityObject.getString("screen_name");
 			this.name = entityObject.getString("name");
 		} catch (JSONException e) {
-			e.printStackTrace();
+			Log.i("Fail", "at user mentions");
 		}
 		
 	}

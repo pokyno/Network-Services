@@ -2,6 +2,7 @@ package nl.drijfhout.twitterclient.tweet.entities;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import android.util.Log;
 
 public class Media_Entity extends Entity{
 	
@@ -16,7 +17,7 @@ public class Media_Entity extends Entity{
 			this.url = entityObject.getString("url");
 			this.display_url = entityObject.getString("display_url");
 		} catch (JSONException e) {
-			e.printStackTrace();
+			Log.i("Fail", "at media");
 		}
 	}
 	
