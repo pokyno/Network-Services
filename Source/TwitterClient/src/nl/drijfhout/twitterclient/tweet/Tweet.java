@@ -4,8 +4,11 @@ import java.util.ArrayList;
 
 import nl.drijfhout.twitterclient.tweet.entities.Hashtags_Entity;
 import nl.drijfhout.twitterclient.tweet.entities.Url_Entity;
+import nl.drijfhout.twitterclient.tweet.entities.User_Mentions_Entity;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -111,9 +114,21 @@ public class Tweet {
 		if (hashtags != null) {
 			for (int h = 0; h < hashtags.size(); h++) {
 				Hashtags_Entity hashtag = hashtags.get(h);
-				int begin = hashtag.getindice(0);
+				int begin = hashtag.getindice(0) - 1;
 				int end = hashtag.getindice(1);
-				WordtoSpan.setSpan(new ForegroundColorSpan(Color.BLUE),
+				WordtoSpan.setSpan(new ForegroundColorSpan(Color.BLUE),	 // hashtags are the color blue
+						begin + 1, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+			}
+		}
+		
+		ArrayList<User_Mentions_Entity> userMentions = entities.getUser_Mentions();
+		
+		if (userMentions != null) {
+			for (int h = 0; h < userMentions.size(); h++) {
+				User_Mentions_Entity userMention = userMentions.get(h);
+				int begin = userMention.getindice(0) - 1;
+				int end = userMention.getindice(1);
+				WordtoSpan.setSpan(new ForegroundColorSpan(Color.CYAN),  //user mentions are the color cyan
 						begin + 1, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 			}
 		}
