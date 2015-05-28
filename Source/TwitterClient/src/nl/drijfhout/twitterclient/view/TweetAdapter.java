@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class TweetAdapter extends ArrayAdapter<Tweet> {
@@ -28,6 +29,12 @@ public class TweetAdapter extends ArrayAdapter<Tweet> {
 		}
 		
 		Tweet t = getItem(position);
+		ImageView profile_image = (ImageView) convertView.findViewById(R.id.imageView1);
+		
+		if(t.getUser().getProfile_image() != null){
+			profile_image.setImageBitmap(t.getUser().getProfile_image()); 
+		}
+		
 		
 		TextView username = (TextView) convertView.findViewById(R.id.tvUsername);
 		TextView name = (TextView) convertView.findViewById(R.id.tvName);

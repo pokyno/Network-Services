@@ -114,10 +114,10 @@ public class Tweet {
 		if (hashtags != null) {
 			for (int h = 0; h < hashtags.size(); h++) {
 				Hashtags_Entity hashtag = hashtags.get(h);
-				int begin = hashtag.getindice(0) - 1;
+				int begin = hashtag.getindice(0);
 				int end = hashtag.getindice(1);
 				WordtoSpan.setSpan(new ForegroundColorSpan(Color.BLUE),	 // hashtags are the color blue
-						begin + 1, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+						begin, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 			}
 		}
 		
