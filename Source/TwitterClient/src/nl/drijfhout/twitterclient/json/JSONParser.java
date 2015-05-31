@@ -1,19 +1,20 @@
 package nl.drijfhout.twitterclient.json;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+
+import nl.drijfhout.twitterclient.tweet.Tweet;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
-
-import android.content.res.AssetManager;
-import nl.drijfhout.twitterclient.tweet.Tweet;
 
 public class JSONParser {
 	private ArrayList<Tweet> tweets;
@@ -40,7 +41,7 @@ public class JSONParser {
 		String text = "";
 		String line;
 		try {
-			InputStream is = context.getAssets().open(filename, AssetManager.ACCESS_BUFFER);
+			InputStream is =  new ByteArrayInputStream(filename.getBytes(StandardCharsets.UTF_8));
 			br = new BufferedReader(new InputStreamReader(is));
 			while ((line = br.readLine()) != null) {
 				sb.append(line);
