@@ -50,6 +50,18 @@ public class TweetAdapter extends ArrayAdapter<Tweet> {
 		name.setTextColor(Color.BLACK);
 		text.setTextColor(Color.RED);
 		
+		ImageView imageView = (ImageView) convertView.findViewById(R.id.imageView2);
+		if(t.getEntities().getMedia().size() != 0){
+			if(t.getEntities().getMedia().get(0).getImage() == null){
+				imageView.setVisibility(View.GONE);
+			}else{
+				imageView.setVisibility(View.VISIBLE);
+				imageView.setImageBitmap(t.getEntities().getMedia().get(0).getImage());
+			}
+		}else{
+			imageView.setVisibility(View.GONE);
+		}
+		
 		return convertView;
 		
 	}

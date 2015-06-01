@@ -9,7 +9,7 @@ public class TwitterApplication extends Application{
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		model = new TwitterModel();
+		model = new TwitterModel(getApplicationContext());
 	}
 	
 	public TwitterModel getModel(){
