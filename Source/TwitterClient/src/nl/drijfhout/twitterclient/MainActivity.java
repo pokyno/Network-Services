@@ -16,9 +16,10 @@ import android.widget.ListView;
 public class MainActivity extends Activity implements Observer {
 
 	private ListView listView;
-	private Button button1;
-	private EditText editText1;
+	private Button btnZoek;
+	private EditText edtZoekterm;
 	private TwitterModel model;
+	private TweetAdapter adapter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -29,18 +30,19 @@ public class MainActivity extends Activity implements Observer {
 		model = app.getModel();
 		model.addObserver(this);
 
-		editText1 = (EditText) findViewById(R.id.editText1);
-
+		edtZoekterm = (EditText) findViewById(R.id.editText1);
+		adapter = new TweetAdapter(this,0,model.getTweets());
+		
 		// tijdelijk voordat er inlog is
 		
 		listView = (ListView) findViewById(R.id.listView1);
-		model.searchForTweet("pieter");
-		button1 = (Button) this.findViewById(R.id.button1);
-		button1.setOnClickListener(new OnClickListener() {
+		listView.setAdapter(adapter);
+		btnZoek = (Button) this.findViewById(R.id.button1);
+		btnZoek.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				String zoekterm = editText1.getText().toString();
+				String zoekterm = edtZoekterm.getText().toString();
 				if (!zoekterm.equals("")) {
 					model.searchForTweet(zoekterm);
 				}
@@ -53,7 +55,8 @@ public class MainActivity extends Activity implements Observer {
 
 	@Override
 	public void update(Observable observable, Object data) {
-		listView.setAdapter(new TweetAdapter(this, 0, model.getTweets()));
+		adapter.clear();
+		adapter.addAll(model.getTweets());
 	}
 
 }
