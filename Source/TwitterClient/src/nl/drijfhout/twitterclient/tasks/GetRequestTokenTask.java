@@ -2,7 +2,7 @@ package nl.drijfhout.twitterclient.tasks;
 
 
 
-import oauth.signpost.OAuth;
+
 import oauth.signpost.OAuthConsumer;
 import oauth.signpost.OAuthProvider;
 import oauth.signpost.exception.OAuthCommunicationException;
@@ -24,7 +24,7 @@ public class GetRequestTokenTask extends AsyncTask<OAuthProvider,Void,String> {
 	protected String doInBackground(OAuthProvider... params) {
 		String url = "";
 		try {
-			 url = params[0].retrieveRequestToken(consumer, OAuth.OUT_OF_BAND);
+			 url = params[0].retrieveRequestToken(consumer, OAUTH_CALLBACK_URL);
 		} catch (OAuthMessageSignerException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
