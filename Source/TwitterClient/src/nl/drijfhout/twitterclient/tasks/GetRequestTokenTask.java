@@ -2,6 +2,7 @@ package nl.drijfhout.twitterclient.tasks;
 
 
 
+import oauth.signpost.OAuth;
 import oauth.signpost.OAuthConsumer;
 import oauth.signpost.OAuthProvider;
 import oauth.signpost.exception.OAuthCommunicationException;
@@ -9,6 +10,7 @@ import oauth.signpost.exception.OAuthExpectationFailedException;
 import oauth.signpost.exception.OAuthMessageSignerException;
 import oauth.signpost.exception.OAuthNotAuthorizedException;
 import android.os.AsyncTask;
+import android.util.Log;
 
 public class GetRequestTokenTask extends AsyncTask<OAuthProvider,Void,String> {
 
@@ -22,7 +24,7 @@ public class GetRequestTokenTask extends AsyncTask<OAuthProvider,Void,String> {
 	protected String doInBackground(OAuthProvider... params) {
 		String url = "";
 		try {
-			 url = params[0].retrieveRequestToken(consumer, OAUTH_CALLBACK_URL);
+			 url = params[0].retrieveRequestToken(consumer, OAuth.OUT_OF_BAND);
 		} catch (OAuthMessageSignerException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -36,6 +38,7 @@ public class GetRequestTokenTask extends AsyncTask<OAuthProvider,Void,String> {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		Log.d("Hieperdepiep!!!", url);
 		return url;
 	}
 

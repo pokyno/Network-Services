@@ -2,6 +2,7 @@ package nl.drijfhout.twitterclient.login;
 
 import java.util.concurrent.ExecutionException;
 
+import android.util.Log;
 import nl.drijfhout.twitterclient.tasks.GetRequestTokenTask;
 import oauth.signpost.OAuthConsumer;
 import oauth.signpost.OAuthProvider;
@@ -16,14 +17,14 @@ public class AuthorizationManager {
 	private	static	final	String	CONSUMER_SECRET	= "hcxPzrRWMKmCFLmKLWaegEaMfKPp8jyFCE3SnQQfojrRxvBGne";
 	private	static	final	String	OAUTH_REQUEST_URL	= "https://api.twitter.com/oauth/request_token";
 	private	static	final	String	OAUTH_ACCESSTOKEN_URL	= "https://api.twitter.com/oauth/access_token";
-	private	 String	OAUTH_AUTHORIZE_URL	= "https://api.twitter.com/oauth/authorize?oauth_token=";
-	private String requestToken;
+	private	 String	OAUTH_AUTHORIZE_URL	= "https://api.twitter.com/oauth/authorize";
+	
 	
 	//public boolean isUserLoggedIn(){
 	//	
 	//}
-	public String getRequestToken(){
-		return requestToken;
+	public String getAuthorizeUrl(){
+		return OAUTH_AUTHORIZE_URL;
 	}
 	
 	
@@ -34,8 +35,9 @@ public class AuthorizationManager {
 		
 		
 		try {
-			requestToken = getrequest.execute(provider).get();
-			OAUTH_AUTHORIZE_URL += requestToken;
+			OAUTH_AUTHORIZE_URL = getrequest.execute(provider).get();
+			
+			Log.d("Authggggg", OAUTH_AUTHORIZE_URL);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
