@@ -33,7 +33,7 @@ public class Tweet {
 	public Tweet(JSONObject tweet, Context context) {
 		this.context = context;
 		try {
-			user = new User(tweet.getJSONObject("user"));
+			user = new User(tweet.getJSONObject("user")); // kijk of het handiger kan
 			entities = new Entities(tweet.getJSONObject("entities")); // fault
 			created_at = tweet.getString("created_at");
 			favorite_count = tweet.getInt("favorite_count");

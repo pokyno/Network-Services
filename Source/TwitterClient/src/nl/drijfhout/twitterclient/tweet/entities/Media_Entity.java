@@ -6,9 +6,13 @@ import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
 
+import nl.drijfhout.twitterclient.TwitterApplication;
+import nl.drijfhout.twitterclient.model.TwitterModel;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -20,9 +24,14 @@ public class Media_Entity extends Entity{
 	private String url;
 	private String display_url;
 	private Bitmap image;
+	private TwitterModel model;
 	
 	public Media_Entity(JSONObject entityObject) {
 		super(entityObject);
+		
+		TwitterApplication app = (TwitterApplication) TwitterModel.context.getApplicationContext();
+		model = app.getModel();
+		
 		try {
 			this.media_url = entityObject.getString("media_url");
 			this.url = entityObject.getString("url");
@@ -56,7 +65,7 @@ public class Media_Entity extends Entity{
 	}
 	
 	public class DownloadImagesTask extends AsyncTask<String, Void, Bitmap> {
-
+		
 		@Override
 		protected Bitmap doInBackground(String... urls) {
 		    return download_Image(urls[0]);
@@ -65,6 +74,7 @@ public class Media_Entity extends Entity{
 		@Override
 		protected void onPostExecute(Bitmap result) {
 		   image = result;
+		   model.refresh();
 		}
 
 

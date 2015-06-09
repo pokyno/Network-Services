@@ -12,7 +12,7 @@ import nl.drijfhout.twitterclient.tweet.Tweet;
 public class TwitterModel extends Observable{
 	
 	private static String token = "";
-	private Context context;
+	public static Context context;
 	
 	public ArrayList<Tweet> tweets;//comment
 	
@@ -40,6 +40,11 @@ public class TwitterModel extends Observable{
 	
 	public ArrayList<Tweet> getTweets(){
 		return tweets;
+	}
+	
+	public void refresh(){
+		setChanged();
+		notifyObservers();
 	}
 	
 	public void setTweets(ArrayList<Tweet> tweets){

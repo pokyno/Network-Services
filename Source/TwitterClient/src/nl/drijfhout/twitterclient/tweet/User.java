@@ -6,9 +6,13 @@ import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
 
+import nl.drijfhout.twitterclient.TwitterApplication;
+import nl.drijfhout.twitterclient.model.TwitterModel;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -18,7 +22,13 @@ public class User {
 	private String name, screen_name;
 	private Bitmap profile_image;
 	
+	private TwitterModel model;
+	
 	public User(JSONObject user){
+		
+		TwitterApplication app = (TwitterApplication) TwitterModel.context.getApplicationContext();
+		model = app.getModel();
+		
 		try {
 			name = user.getString("name");
 			screen_name = user.getString("screen_name");
@@ -56,9 +66,11 @@ public class User {
 		@Override
 		protected void onPostExecute(Bitmap result) {
 		   profile_image = result;
+		   model.refresh();
 		}
 
-
+		
+		
 		private Bitmap download_Image(String url) {
 		    //---------------------------------------------------
 		    Bitmap bm = null;
