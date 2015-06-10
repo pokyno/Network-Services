@@ -7,6 +7,7 @@ import java.util.concurrent.ExecutionException;
 
 import android.content.Context;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import nl.drijfhout.twitterclient.login.AuthorizationManager;
 import nl.drijfhout.twitterclient.tasks.GetTokenTask;
 import nl.drijfhout.twitterclient.tasks.SearchTweetTask;
@@ -14,8 +15,8 @@ import nl.drijfhout.twitterclient.tweet.Tweet;
 
 public class TwitterModel extends Observable{
 	
-	private String user_token = PreferenceManager.getDefaultSharedPreferences(context).getString("TOKEN", "");
-	private String user_secret = PreferenceManager.getDefaultSharedPreferences(context).getString("SECRET", "");
+	private String user_token; 
+	private String user_secret; 
 	private static String token = "";
 	public static Context context;
 	private AuthorizationManager manager;
@@ -24,6 +25,9 @@ public class TwitterModel extends Observable{
 	public TwitterModel(Context context){
 		this.context = context;
 		GetTokenTask taak = new GetTokenTask();
+		user_token = PreferenceManager.getDefaultSharedPreferences(context).getString("TOKEN", "");
+		Log.d("token!!", user_token);
+		user_secret = PreferenceManager.getDefaultSharedPreferences(context).getString("SECRET", "");
 		tweets = new ArrayList<Tweet>();
 		manager = new AuthorizationManager();
 		manager.init();

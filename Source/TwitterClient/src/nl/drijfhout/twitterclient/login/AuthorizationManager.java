@@ -24,9 +24,12 @@ public class AuthorizationManager {
 	private	 String	OAUTH_AUTHORIZE_URL	= "https://api.twitter.com/oauth/authorize";
 	
 	
-	//public boolean isUserLoggedIn(){
-	//	
-	//}
+	public boolean isUserLoggedIn(){
+		if(consumer.getToken()!=""){
+			return true;
+		}
+		return false;
+	}
 	
 	public void setTokenAndSecret(String token,String secret){
 		consumer.setTokenWithSecret(token, secret);
