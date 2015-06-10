@@ -2,12 +2,16 @@ package nl.drijfhout.twitterclient.login;
 
 import java.util.concurrent.ExecutionException;
 
-import android.util.Log;
-import nl.drijfhout.twitterclient.tasks.GetRequestTokenTask;
 import oauth.signpost.OAuthConsumer;
 import oauth.signpost.OAuthProvider;
 import oauth.signpost.commonshttp.CommonsHttpOAuthConsumer;
 import oauth.signpost.commonshttp.CommonsHttpOAuthProvider;
+import android.util.Log;
+import nl.drijfhout.twitterclient.tasks.GetRequestTokenTask;
+import nl.drijfhout.twitterclient.tasks.RetrieveAccessTokenTask;
+
+
+
 
 public class AuthorizationManager {
 
@@ -23,11 +27,27 @@ public class AuthorizationManager {
 	//public boolean isUserLoggedIn(){
 	//	
 	//}
+	
+	public void setTokenAndSecret(String token,String secret){
+		consumer.setTokenWithSecret(token, secret);
+	}
+	
+	public void setAccesToken(String verifier){
+	  RetrieveAccessTokenTask acces_token_task = new RetrieveAccessTokenTask(provider,consumer);
+	  acces_token_task.execute(verifier);
+	}
+	
 	public String getAuthorizeUrl(){
 		return OAUTH_AUTHORIZE_URL;
 	}
 	
+	public String getConsumerToken(){
+		return consumer.getToken();
+	}
 	
+	public String getConsumerTokenSecret(){
+		return consumer.getTokenSecret();
+	}
 	public void init(){
 		consumer=	new CommonsHttpOAuthConsumer(CONSUMER_KEY,	CONSUMER_SECRET);	
 		provider	=	new CommonsHttpOAuthProvider(	OAUTH_REQUEST_URL, OAUTH_ACCESSTOKEN_URL,	OAUTH_AUTHORIZE_URL);

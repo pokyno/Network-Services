@@ -4,22 +4,32 @@ package nl.drijfhout.twitterclient.model;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.concurrent.ExecutionException;
+
 import android.content.Context;
+import android.preference.PreferenceManager;
+import nl.drijfhout.twitterclient.login.AuthorizationManager;
 import nl.drijfhout.twitterclient.tasks.GetTokenTask;
 import nl.drijfhout.twitterclient.tasks.SearchTweetTask;
 import nl.drijfhout.twitterclient.tweet.Tweet;
 
 public class TwitterModel extends Observable{
 	
+	private String user_token = PreferenceManager.getDefaultSharedPreferences(context).getString("TOKEN", "");
+	private String user_secret = PreferenceManager.getDefaultSharedPreferences(context).getString("SECRET", "");
 	private static String token = "";
 	public static Context context;
-	
+	private AuthorizationManager manager;
 	public ArrayList<Tweet> tweets;//comment
 	
 	public TwitterModel(Context context){
 		this.context = context;
 		GetTokenTask taak = new GetTokenTask();
 		tweets = new ArrayList<Tweet>();
+		manager = new AuthorizationManager();
+		manager.init();
+		if(user_token!=""){
+		manager.setTokenAndSecret(user_token,user_secret);
+		}
 		try {
 			token = taak.execute().get();
 		} catch (InterruptedException e) {
@@ -30,14 +40,25 @@ public class TwitterModel extends Observable{
 			e.printStackTrace();
 		}
 	}
-
+	public String getUserToken(){
+		return user_token;
+	}
+	public AuthorizationManager getManager(){
+		return manager;
+	}
 	public void searchForTweet(String searchTerm){
 		SearchTweetTask task = new SearchTweetTask(token,context);
 		
 		task.execute(searchTerm);
 		
 	}
-	
+	public void setAccesToken(String verifier){
+		manager.setAccesToken(verifier);
+		String token = manager.getConsumerToken();
+		String secret = manager.getConsumerTokenSecret();
+		PreferenceManager.getDefaultSharedPreferences(context).edit().putString("TOKEN", token).commit();
+		PreferenceManager.getDefaultSharedPreferences(context).edit().putString("SECRET", secret).commit();
+	}
 	public ArrayList<Tweet> getTweets(){
 		return tweets;
 	}

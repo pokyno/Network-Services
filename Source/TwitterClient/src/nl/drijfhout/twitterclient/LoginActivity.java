@@ -1,7 +1,9 @@
 package nl.drijfhout.twitterclient;
 
-import nl.drijfhout.twitterclient.login.AuthorizationManager;
+
+import nl.drijfhout.twitterclient.model.TwitterModel;
 import android.app.Activity;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -10,20 +12,27 @@ import android.webkit.WebViewClient;
 
 public class LoginActivity extends Activity {
 	private WebView wv;
+	private TwitterApplication app;
+	private TwitterModel model;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		app = (TwitterApplication) getApplicationContext();
+		model = app.getModel();
 		setContentView(R.layout.activity_login);
 		wv = (WebView)this.findViewById(R.id.webView1);
-		AuthorizationManager man = new AuthorizationManager();
-		man.init();
-		wv.loadUrl(man.getAuthorizeUrl());
+		
+		wv.loadUrl(model.getManager().getAuthorizeUrl());
 		
 		wv.setWebViewClient(new WebViewClient(){
 			
 			@Override
 			public boolean shouldOverrideUrlLoading(WebView view,String url){
-				if(url.startsWith("http://www.saxion.nl/pgrtwitter/authenticated")){
+				String callback = "http://www.saxion.nl/pgrtwitter/authenticated";
+				if(url.startsWith(callback)){
+					 Uri uriurl = Uri.parse(url);
+					String verifier = uriurl.getQueryParameters("oauth_verifier").get(0);
+					model.setAccesToken(verifier);
 					return true;
 				}
 				return false;

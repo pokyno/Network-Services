@@ -2,10 +2,11 @@ package nl.drijfhout.twitterclient;
 
 import java.util.Observable;
 import java.util.Observer;
+
 import nl.drijfhout.twitterclient.model.TwitterModel;
 import nl.drijfhout.twitterclient.view.TweetAdapter;
-
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -34,6 +35,8 @@ public class MainActivity extends Activity implements Observer {
 		adapter = new TweetAdapter(this,0,model.getTweets());
 		
 		// tijdelijk voordat er inlog is
+	
+		
 		
 		listView = (ListView) findViewById(R.id.listView1);
 		listView.setAdapter(adapter);
@@ -42,11 +45,13 @@ public class MainActivity extends Activity implements Observer {
 
 			@Override
 			public void onClick(View v) {
-				String zoekterm = edtZoekterm.getText().toString();
-				if (!zoekterm.equals("")) {
-					model.searchForTweet(zoekterm);
-				}
-
+				//String zoekterm = edtZoekterm.getText().toString();
+				//if (!zoekterm.equals("")) {
+					//model.searchForTweet(zoekterm);
+					
+				//}
+				Intent i = new Intent(MainActivity.this,LoginActivity.class);
+				startActivity(i);
 			}
 
 		});
