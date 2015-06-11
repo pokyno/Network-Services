@@ -14,24 +14,26 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 
+        <EditText
+            android:id="@+id/editText1"
+            android:layout_width="186dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10" />
+
+        <Button
+            android:id="@+id/BtnLogin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Zoek" />
+
     </LinearLayout>
 
-    <Button
-        android:id="@+id/BtnLogin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Login" />
-
-    <Button
-        android:id="@+id/BtnZoekActivity"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Zoek" />
-
-    <Button
-        android:id="@+id/BtnLoguit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Log uit" />
+    <ListView
+        android:id="@+id/listView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+    </ListView>
 
 </LinearLayout>

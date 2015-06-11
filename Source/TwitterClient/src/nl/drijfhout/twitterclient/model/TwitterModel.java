@@ -19,7 +19,7 @@ public class TwitterModel extends Observable{
 	private String user_secret; 
 	private static String token = "";
 	public static Context context;
-	private AuthorizationManager manager;
+	
 	public ArrayList<Tweet> tweets;//comment
 	
 	public TwitterModel(Context context){
@@ -29,10 +29,9 @@ public class TwitterModel extends Observable{
 		Log.d("token!!", user_token);
 		user_secret = PreferenceManager.getDefaultSharedPreferences(context).getString("SECRET", "");
 		tweets = new ArrayList<Tweet>();
-		manager = new AuthorizationManager();
-		manager.init();
+		
 		if(user_token!=""){
-		manager.setTokenAndSecret(user_token,user_secret);
+		
 		}
 		try {
 			token = taak.execute().get();
@@ -47,8 +46,18 @@ public class TwitterModel extends Observable{
 	public String getUserToken(){
 		return user_token;
 	}
-	public AuthorizationManager getManager(){
-		return manager;
+	public boolean isLoggedIn(){
+		return user_token !="";
+	}
+	public String getUserSecret(){
+		return user_secret;
+	}
+	
+	public void setToken(String user_token){
+		this.user_token = user_token;
+	}
+	public void setUserSecret(String user_secret){
+		this.user_secret = user_secret;
 	}
 	public void searchForTweet(String searchTerm){
 		SearchTweetTask task = new SearchTweetTask(token,context);
@@ -56,13 +65,7 @@ public class TwitterModel extends Observable{
 		task.execute(searchTerm);
 		
 	}
-	public void setAccesToken(String verifier){
-		manager.setAccesToken(verifier);
-		String token = manager.getConsumerToken();
-		String secret = manager.getConsumerTokenSecret();
-		PreferenceManager.getDefaultSharedPreferences(context).edit().putString("TOKEN", token).commit();
-		PreferenceManager.getDefaultSharedPreferences(context).edit().putString("SECRET", secret).commit();
-	}
+	
 	public ArrayList<Tweet> getTweets(){
 		return tweets;
 	}

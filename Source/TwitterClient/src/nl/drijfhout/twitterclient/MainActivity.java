@@ -14,54 +14,68 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
-public class MainActivity extends Activity implements Observer {
+public class MainActivity extends Activity  {
 
-	private ListView listView;
+	
 	private Button btnZoek;
-	private EditText edtZoekterm;
+	private Button btnLogin;
+	private Button btnLoguit;
 	private TwitterModel model;
-	private TweetAdapter adapter;
+	private TwitterApplication app;
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-
-		TwitterApplication app = (TwitterApplication) getApplicationContext();
+		app = (TwitterApplication) getApplicationContext();
 		model = app.getModel();
-		model.addObserver(this);
-
-		edtZoekterm = (EditText) findViewById(R.id.editText1);
-		adapter = new TweetAdapter(this,0,model.getTweets());
+		btnZoek = (Button)findViewById(R.id.BtnZoekActivity);
+		btnLogin = (Button)findViewById(R.id.BtnLogin);
+		btnLoguit = (Button)findViewById(R.id.BtnLoguit);
 		
-		// tijdelijk voordat er inlog is
-	
+		if(model.isLoggedIn()){
+			btnLoguit.setVisibility(View.VISIBLE);
+			btnLogin.setVisibility(View.GONE);
+		}else{
+			btnLoguit.setVisibility(View.GONE);
+			btnLogin.setVisibility(View.VISIBLE);
+		}
 		
-		
-		listView = (ListView) findViewById(R.id.listView1);
-		listView.setAdapter(adapter);
-		btnZoek = (Button) this.findViewById(R.id.button1);
-		btnZoek.setOnClickListener(new OnClickListener() {
+		btnLogin.setOnClickListener(new OnClickListener(){
 
 			@Override
 			public void onClick(View v) {
-				//String zoekterm = edtZoekterm.getText().toString();
-				//if (!zoekterm.equals("")) {
-					//model.searchForTweet(zoekterm);
-					
-				//}
-				Intent i = new Intent(MainActivity.this,LoginActivity.class);
-				startActivity(i);
+				Intent intent = new Intent(MainActivity.this,LoginActivity.class);
+				startActivity(intent);
+				
 			}
-
+			
 		});
+		
+		btnZoek.setOnClickListener(new OnClickListener(){
 
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(MainActivity.this,ZoekActivity.class);
+				startActivity(intent);
+				
+			}
+			
+		});
+		
+		btnLoguit.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				
+				
+			}
+			
+		});
+		
 	}
 
-	@Override
-	public void update(Observable observable, Object data) {
-		adapter.clear();
-		adapter.addAll(model.getTweets());
-	}
+	
 
 }

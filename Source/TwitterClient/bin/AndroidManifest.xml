@@ -29,6 +29,10 @@
             android:name=".LoginActivity"
             android:label="@string/title_activity_login" >
         </activity>
+        <activity
+            android:name=".ZoekActivity"
+            android:label="@string/title_activity_zoek" >
+        </activity>
     </application>
 
 </manifest>
