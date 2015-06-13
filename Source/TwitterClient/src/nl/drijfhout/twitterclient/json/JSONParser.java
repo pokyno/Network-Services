@@ -9,6 +9,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 import nl.drijfhout.twitterclient.tweet.Tweet;
+import nl.drijfhout.twitterclient.tweet.User;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -75,6 +76,39 @@ public class JSONParser {
 			}
 		}
 		return text;		
+	}
+
+	public User getUser(String userJSON) throws IOException {
+		User user = null;
+		BufferedReader br = null;
+		StringBuilder sb = new StringBuilder();
+		String text = "";
+		String line;
+		try {
+			InputStream is =  new ByteArrayInputStream(userJSON.getBytes(StandardCharsets.UTF_8));
+			br = new BufferedReader(new InputStreamReader(is));
+			while ((line = br.readLine()) != null) {
+				sb.append(line);
+			}
+			try {
+			JSONObject userJ = new JSONObject(sb.toString());
+			user = new User(userJ);
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+            throw e;
+		} finally {
+			if (br != null) {
+				try {
+					br.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return user;
 	}
 	
 	

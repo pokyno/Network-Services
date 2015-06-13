@@ -33,6 +33,10 @@
             android:name=".ZoekActivity"
             android:label="@string/title_activity_zoek" >
         </activity>
+        <activity
+            android:name=".UserProfileActivity"
+            android:label="@string/title_activity_user_profile" >
+        </activity>
     </application>
 
 </manifest>

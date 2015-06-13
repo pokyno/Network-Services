@@ -44,7 +44,7 @@ public class SearchTweetTask extends AsyncTask<String,Void,ArrayList<Tweet>>{
 			e1.printStackTrace();
 		}
 		HttpClient client = new DefaultHttpClient();	
-		ResponseHandler<String> handler= new BasicResponseHandler();	
+		ResponseHandler<String> handler= new BasicResponseHandler();
 		HttpGet httpGet = new HttpGet("https://api.twitter.com/1.1/search/tweets.json?q=" + encoded);
 		httpGet.setHeader("Authorization", "Bearer " + token);
 		try {

@@ -16,7 +16,7 @@ import android.widget.ListView;
 
 public class MainActivity extends Activity  {
 
-	
+	private Button buttonProfile; 	
 	private Button btnZoek;
 	private Button btnLogin;
 	private Button btnLoguit;
@@ -33,13 +33,16 @@ public class MainActivity extends Activity  {
 		btnZoek = (Button)findViewById(R.id.BtnZoekActivity);
 		btnLogin = (Button)findViewById(R.id.BtnLogin);
 		btnLoguit = (Button)findViewById(R.id.BtnLoguit);
+		buttonProfile = (Button) findViewById(R.id.buttonProfile);
 		
 		if(model.isLoggedIn()){
 			btnLoguit.setVisibility(View.VISIBLE);
 			btnLogin.setVisibility(View.GONE);
+			buttonProfile.setVisibility(View.VISIBLE);
 		}else{
 			btnLoguit.setVisibility(View.GONE);
 			btnLogin.setVisibility(View.VISIBLE);
+			buttonProfile.setVisibility(View.GONE);
 		}
 		
 		btnLogin.setOnClickListener(new OnClickListener(){
@@ -51,6 +54,17 @@ public class MainActivity extends Activity  {
 				
 			}
 			
+		});
+		
+		buttonProfile.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(MainActivity.this, UserProfileActivity.class);
+				intent.putExtra("function",UserProfileActivity.CURRENT_PROFILE);
+				startActivity(intent);
+				
+			}
 		});
 		
 		btnZoek.setOnClickListener(new OnClickListener(){

@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,8 +27,8 @@ public class LoginActivity extends Activity {
 		model = app.getModel();
 		setContentView(R.layout.activity_login);
 		wv = (WebView)this.findViewById(R.id.webView1);
-		manager = new AuthorizationManager();
-		manager.init();
+		
+		manager = app.getAuthorizationManager();
 		
 		if(model.getUserToken() != ""){
 			manager.setTokenAndSecret(model.getUserToken(),model.getUserSecret());
@@ -51,6 +52,7 @@ public class LoginActivity extends Activity {
 					String secret = manager.getConsumerTokenSecret();
 					model.setToken(token);
 					model.setUserSecret(secret);
+					model.pullCurrentUser(); //voor na het inloggen
 					PreferenceManager.getDefaultSharedPreferences(LoginActivity.this).edit().putString("TOKEN", token).commit();
 					PreferenceManager.getDefaultSharedPreferences(LoginActivity.this).edit().putString("SECRET", secret).commit();
 					finish();
