@@ -66,7 +66,9 @@ public class User {
 		@Override
 		protected void onPostExecute(Bitmap result) {
 		   profile_image = result;
+		   if(model!=null){
 		   model.refresh();
+		   }
 		}
 
 		

@@ -1,5 +1,6 @@
 package nl.drijfhout.twitterclient.login;
 
+import java.net.URLDecoder;
 import java.util.concurrent.ExecutionException;
 
 import org.apache.http.client.methods.HttpGet;
@@ -41,7 +42,16 @@ public class AuthorizationManager {
 	public void setAccesToken(String verifier) {
 		RetrieveAccessTokenTask acces_token_task = new RetrieveAccessTokenTask(
 				provider, consumer);
-		acces_token_task.execute(verifier);
+		try {
+			acces_token_task.execute(verifier).get();
+			
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public String getAuthorizeUrl() {
@@ -64,7 +74,7 @@ public class AuthorizationManager {
 
 		try {
 			OAUTH_AUTHORIZE_URL = getrequest.execute(provider).get();
-
+			
 			Log.d("Authggggg", OAUTH_AUTHORIZE_URL);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block

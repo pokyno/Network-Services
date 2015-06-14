@@ -35,7 +35,7 @@ public class TwitterModel extends Observable{
 		tweets = new ArrayList<Tweet>();
 		
 		if(user_token!=""){
-			
+			pullCurrentUser(); // voor als de user al eens ingelogd is
 		}
 		try {
 			token = taak.execute().get();
@@ -47,7 +47,7 @@ public class TwitterModel extends Observable{
 			e.printStackTrace();
 		}
 		
-		pullCurrentUser(); // voor als de user al eens ingelogd is
+		
 	}
 	public String getUserToken(){
 		return user_token;

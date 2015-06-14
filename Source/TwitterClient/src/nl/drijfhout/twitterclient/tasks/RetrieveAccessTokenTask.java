@@ -8,9 +8,10 @@ import oauth.signpost.exception.OAuthMessageSignerException;
 import oauth.signpost.exception.OAuthNotAuthorizedException;
 import android.os.AsyncTask;
 
+
 	
 
-public class RetrieveAccessTokenTask extends AsyncTask<String, Void,Void> {
+public class RetrieveAccessTokenTask extends AsyncTask<String, Void,String> {
 	private OAuthProvider provider;
 	private OAuthConsumer consumer;
 	public RetrieveAccessTokenTask(OAuthProvider provider, OAuthConsumer consumer){
@@ -18,7 +19,7 @@ public class RetrieveAccessTokenTask extends AsyncTask<String, Void,Void> {
 		this.consumer = consumer;
 	}
 	@Override
-	protected Void doInBackground(String... params) {
+	protected String doInBackground(String... params) {
 		try {
 			provider.retrieveAccessToken(consumer, params[0]);
 		} catch (OAuthMessageSignerException e) {
@@ -34,7 +35,8 @@ public class RetrieveAccessTokenTask extends AsyncTask<String, Void,Void> {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return null;
+		
+		return consumer.getToken();
 	}
-
+	
 }
