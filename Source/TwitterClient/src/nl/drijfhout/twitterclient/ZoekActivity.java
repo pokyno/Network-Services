@@ -31,15 +31,13 @@ public class ZoekActivity extends Activity implements Observer {
 		TwitterApplication app = (TwitterApplication) getApplicationContext();
 		model = app.getModel();
 		model.addObserver(this);
-
+		model.context = this; //om de context naar deze activitie te zetten
+		
 		edtZoekterm = (EditText) findViewById(R.id.editText1);
 		adapter = new TweetAdapter(this,0,model.getTweets());
 		
 		
-	
-		
-		
-		listView = (ListView) findViewById(R.id.listView1);
+		listView = (ListView) findViewById(R.id.listViewTimeLine);
 		listView.setAdapter(adapter);
 		btnZoek = (Button) this.findViewById(R.id.BtnLogin);
 		btnZoek.setOnClickListener(new OnClickListener() {

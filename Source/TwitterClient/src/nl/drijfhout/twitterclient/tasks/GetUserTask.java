@@ -74,7 +74,6 @@ public class GetUserTask extends AsyncTask<String, Void, User>{
 		DefaultHttpClient mClient = new DefaultHttpClient();
 
             HttpGet get = new HttpGet("https://api.twitter.com/1.1/account/verify_credentials.json");
-            //get.setHeader("Authorization", user_token);
             try {
 				manager.signWithUserToken(get);	 
 				String response = mClient.execute(get, new BasicResponseHandler());

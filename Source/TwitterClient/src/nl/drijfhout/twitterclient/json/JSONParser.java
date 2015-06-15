@@ -111,6 +111,56 @@ public class JSONParser {
 		return user;
 	}
 	
+	public ArrayList<Tweet> getTimeLine(String filename){// tijdenlijk met file name
+		try {
+			readTimeLineAssetsIntoString(filename);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return tweets;
+	}
+	
+	private String readTimeLineAssetsIntoString(String filename) throws IOException {
+		BufferedReader br = null;
+		StringBuilder sb = new StringBuilder();
+		String text = "";
+		String line;
+		try {
+			InputStream is =  new ByteArrayInputStream(filename.getBytes(StandardCharsets.UTF_8));
+			br = new BufferedReader(new InputStreamReader(is));
+			while ((line = br.readLine()) != null) {
+				sb.append(line);
+			}
+			
+			try {
+				JSONArray statussen = new JSONArray(sb.toString());
+				
+				for(int i = 0; i<statussen.length();i++){
+					JSONObject tweet = statussen.getJSONObject(i);
+					tweets.add(new Tweet(tweet, context));
+				}
+				
+				
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+            throw e;
+		} finally {
+			if (br != null) {
+				try {
+					br.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return text;		
+	}
+	
 	
 	
 }

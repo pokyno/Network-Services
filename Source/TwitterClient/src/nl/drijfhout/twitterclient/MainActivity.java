@@ -30,6 +30,7 @@ public class MainActivity extends Activity  {
 		setContentView(R.layout.activity_main);
 		app = (TwitterApplication) getApplicationContext();
 		model = app.getModel();
+		model.context = this; //om de context naar deze activitie te zetten
 		btnZoek = (Button)findViewById(R.id.BtnZoekActivity);
 		btnLogin = (Button)findViewById(R.id.BtnLogin);
 		btnLoguit = (Button)findViewById(R.id.BtnLoguit);

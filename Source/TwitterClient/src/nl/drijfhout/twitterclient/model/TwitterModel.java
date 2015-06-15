@@ -10,6 +10,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import nl.drijfhout.twitterclient.TwitterApplication;
 import nl.drijfhout.twitterclient.login.AuthorizationManager;
+import nl.drijfhout.twitterclient.tasks.GetTimeLineTask;
 import nl.drijfhout.twitterclient.tasks.GetTokenTask;
 import nl.drijfhout.twitterclient.tasks.GetUserTask;
 import nl.drijfhout.twitterclient.tasks.SearchTweetTask;
@@ -20,7 +21,11 @@ public class TwitterModel extends Observable{
 	
 	private String user_token; 
 	private String user_secret; 
+	
+	//alles van de current user
 	private User currentUser;
+	public ArrayList<Tweet> userTimeLine;
+	
 	private static String token = "";
 	public static Context context;
 	
@@ -33,6 +38,7 @@ public class TwitterModel extends Observable{
 		Log.d("token!!", user_token);
 		user_secret = PreferenceManager.getDefaultSharedPreferences(context).getString("SECRET", "");
 		tweets = new ArrayList<Tweet>();
+		userTimeLine = new ArrayList<Tweet>();
 		
 		if(user_token!=""){
 			pullCurrentUser(); // voor als de user al eens ingelogd is
@@ -79,6 +85,10 @@ public class TwitterModel extends Observable{
 		return currentUser;
 	}
 	
+	public ArrayList<Tweet> getUserTimeLine(){
+		return new ArrayList<Tweet>(userTimeLine);
+	}
+	
 	public String getToken(){
 		return token;
 	}
@@ -99,6 +109,11 @@ public class TwitterModel extends Observable{
 	}
 	public void pullCurrentUser() {
 		GetUserTask task = new GetUserTask(user_token,user_secret,context, this);
+		task.execute();
+	}
+	
+	public void pullUserTimeLine() {
+		GetTimeLineTask task = new GetTimeLineTask(user_token,user_secret,context, this);
 		task.execute();
 	}
 	
