@@ -8,13 +8,15 @@ import nl.drijfhout.twitterclient.view.TweetAdapter;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
-public class MainActivity extends Activity  {
+public class MainActivity extends Activity implements Observer {
 
 	private Button buttonProfile; 	
 	private Button btnZoek;
@@ -30,6 +32,7 @@ public class MainActivity extends Activity  {
 		setContentView(R.layout.activity_main);
 		app = (TwitterApplication) getApplicationContext();
 		model = app.getModel();
+		model.addObserver(this);
 		model.context = this; //om de context naar deze activitie te zetten
 		btnZoek = (Button)findViewById(R.id.BtnZoekActivity);
 		btnLogin = (Button)findViewById(R.id.BtnLogin);
@@ -85,10 +88,28 @@ public class MainActivity extends Activity  {
 			public void onClick(View v) {
 				
 				
+				model.clearUserToken();
+				app.getAuthorizationManager().setTokenAndSecret("", "");
+			
 			}
 			
 		});
 		
+	}
+
+
+	@Override
+	public void update(Observable observable, Object data) {
+		Log.d("Werkt dit", "hoop het wel :P");
+		if(model.isLoggedIn()){
+			btnLoguit.setVisibility(View.VISIBLE);
+			btnLogin.setVisibility(View.GONE);
+			buttonProfile.setVisibility(View.VISIBLE);
+		}else{
+			btnLoguit.setVisibility(View.GONE);
+			btnLogin.setVisibility(View.VISIBLE);
+			buttonProfile.setVisibility(View.GONE);
+		}
 	}
 
 	

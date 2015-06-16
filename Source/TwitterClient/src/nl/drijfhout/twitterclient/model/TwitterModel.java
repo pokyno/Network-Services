@@ -8,6 +8,7 @@ import java.util.concurrent.ExecutionException;
 import android.content.Context;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import nl.drijfhout.twitterclient.LoginActivity;
 import nl.drijfhout.twitterclient.TwitterApplication;
 import nl.drijfhout.twitterclient.login.AuthorizationManager;
 import nl.drijfhout.twitterclient.tasks.GetTimeLineTask;
@@ -55,6 +56,14 @@ public class TwitterModel extends Observable{
 		
 		
 	}
+	
+	public void clearUserToken(){
+		setToken("");
+		setUserSecret("");
+		PreferenceManager.getDefaultSharedPreferences(context).edit().putString("TOKEN", "").commit();
+		PreferenceManager.getDefaultSharedPreferences(context).edit().putString("SECRET", "").commit();
+	}
+	
 	public String getUserToken(){
 		return user_token;
 	}
@@ -67,6 +76,8 @@ public class TwitterModel extends Observable{
 	
 	public void setToken(String user_token){
 		this.user_token = user_token;
+		setChanged();
+		notifyObservers();
 	}
 	public void setUserSecret(String user_secret){
 		this.user_secret = user_secret;
