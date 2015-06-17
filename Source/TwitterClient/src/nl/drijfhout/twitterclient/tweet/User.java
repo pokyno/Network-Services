@@ -21,7 +21,7 @@ import android.util.Log;
 public class User {
 	private String name, screen_name;
 	private Bitmap profile_image;
-	
+	private String id_str;
 	private TwitterModel model;
 	
 	public User(JSONObject user){
@@ -32,6 +32,7 @@ public class User {
 		try {
 			name = user.getString("name");
 			screen_name = user.getString("screen_name");
+			id_str = user.getString("id_str");
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
@@ -44,6 +45,9 @@ public class User {
 		
 	}
 	
+	public String getStrId(){
+		return id_str;
+	}
 	public String getname(){
 		return name;
 	}

@@ -20,14 +20,14 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
-public class GetTimeLineTask extends AsyncTask<String, Void, ArrayList<Tweet>> {
+public class GetCurrentUserTimeLineTask extends AsyncTask<String, Void, ArrayList<Tweet>> {
 	private String user_token;
 	private String user_secret;
 	private Context context;
 	private TwitterModel model;
 	private AuthorizationManager manager;
 
-	public GetTimeLineTask(String token, String secret, Context context,
+	public GetCurrentUserTimeLineTask(String token, String secret, Context context,
 			TwitterModel model) {
 		this.user_token = token;
 		this.user_secret = secret;
@@ -41,7 +41,7 @@ public class GetTimeLineTask extends AsyncTask<String, Void, ArrayList<Tweet>> {
 	@Override
 	protected ArrayList<Tweet> doInBackground(String... params) {
 		ArrayList<Tweet> tweets = new ArrayList<Tweet>();
-
+		
 		manager.setTokenAndSecret(user_token, user_secret);
 
 		DefaultHttpClient mClient = new DefaultHttpClient();

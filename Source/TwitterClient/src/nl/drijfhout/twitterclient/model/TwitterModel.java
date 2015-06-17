@@ -11,9 +11,10 @@ import android.util.Log;
 import nl.drijfhout.twitterclient.LoginActivity;
 import nl.drijfhout.twitterclient.TwitterApplication;
 import nl.drijfhout.twitterclient.login.AuthorizationManager;
-import nl.drijfhout.twitterclient.tasks.GetTimeLineTask;
+import nl.drijfhout.twitterclient.tasks.GetCurrentUserTimeLineTask;
 import nl.drijfhout.twitterclient.tasks.GetTokenTask;
 import nl.drijfhout.twitterclient.tasks.GetUserTask;
+import nl.drijfhout.twitterclient.tasks.GetUserTimeLineTask;
 import nl.drijfhout.twitterclient.tasks.SearchTweetTask;
 import nl.drijfhout.twitterclient.tweet.Tweet;
 import nl.drijfhout.twitterclient.tweet.User;
@@ -26,6 +27,8 @@ public class TwitterModel extends Observable{
 	//alles van de current user
 	private User currentUser;
 	public ArrayList<Tweet> userTimeLine;
+	
+	
 	
 	private static String token = "";
 	public static Context context;
@@ -123,9 +126,33 @@ public class TwitterModel extends Observable{
 		task.execute();
 	}
 	
-	public void pullUserTimeLine() {
-		GetTimeLineTask task = new GetTimeLineTask(user_token,user_secret,context, this);
+	public void pullCurrentUserTimeLine() {
+		userTimeLine.clear();
+		GetCurrentUserTimeLineTask task = new GetCurrentUserTimeLineTask(user_token,user_secret,context, this);
 		task.execute();
+	}
+	
+	public void pullUserTimeLine(String id){
+		userTimeLine.clear();
+		GetUserTimeLineTask task = new GetUserTimeLineTask(user_token,user_secret,context, this,id);
+		task.execute();
+	}
+
+	public User getSelectedUser(String id) {
+		User user = null;
+		for(Tweet t : userTimeLine){
+			User temp = t.getUser(); //tijdelijke vast houden voor check
+			if(temp.getStrId().equals(id)){
+				user = temp;
+			}
+		}
+		for(Tweet t : tweets){
+			User temp = t.getUser(); //tijdelijke vast houden voor check
+			if(temp.getStrId().equals(id)){
+				user = temp;
+			}
+		}
+		return user;
 	}
 	
 }

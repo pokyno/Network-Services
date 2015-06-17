@@ -8,6 +8,7 @@ import nl.drijfhout.twitterclient.tweet.User;
 import nl.drijfhout.twitterclient.view.TweetAdapter;
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
@@ -15,12 +16,13 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 public class UserProfileActivity extends Activity implements Observer{
-	public static final int CURRENT_PROFILE = 0;
-	private int function;
+	public static final String CURRENT_PROFILE = "0";
+	private String id;
 	private User user;
 	private TwitterModel model;
 	private TweetAdapter adapter;
 	private ImageView profile_image;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -33,11 +35,14 @@ public class UserProfileActivity extends Activity implements Observer{
 		
 		//optie voor later veranderen
 		
-		function = getIntent().getIntExtra("function", 0);
-		if(function == CURRENT_PROFILE){
-			model.pullCurrentUser();
+		id = getIntent().getStringExtra("ID");
+		if(id.equals(CURRENT_PROFILE)){ // current profile heb ik het id 0 gegeven
 			user = model.getCurrentUser();
-			model.pullUserTimeLine();
+			model.pullCurrentUserTimeLine();
+		}else{
+			Log.i("test","i came this far");
+			user = model.getSelectedUser(id);
+			model.pullUserTimeLine(id);
 		}
 		
 		profile_image = (ImageView) findViewById(R.id.imageView1);

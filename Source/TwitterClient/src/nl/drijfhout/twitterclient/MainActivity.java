@@ -65,7 +65,7 @@ public class MainActivity extends Activity implements Observer {
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent(MainActivity.this, UserProfileActivity.class);
-				intent.putExtra("function",UserProfileActivity.CURRENT_PROFILE);
+				intent.putExtra("ID",UserProfileActivity.CURRENT_PROFILE);
 				startActivity(intent);
 				
 			}

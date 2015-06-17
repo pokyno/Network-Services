@@ -45,7 +45,7 @@ public class Tweet {
 		}
 
 	}
-
+	
 	public Entities getEntities() {
 		return entities;
 	}
