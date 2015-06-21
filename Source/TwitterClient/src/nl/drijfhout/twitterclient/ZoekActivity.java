@@ -33,7 +33,7 @@ public class ZoekActivity extends Activity implements Observer {
 		model.addObserver(this);
 		model.context = this; //om de context naar deze activitie te zetten
 		
-		edtZoekterm = (EditText) findViewById(R.id.editText1);
+		edtZoekterm = (EditText) findViewById(R.id.edtTweet);
 		adapter = new TweetAdapter(this,0,model.getTweets());
 		
 		

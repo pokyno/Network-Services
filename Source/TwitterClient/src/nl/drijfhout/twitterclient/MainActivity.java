@@ -20,6 +20,7 @@ public class MainActivity extends Activity implements Observer {
 
 	private Button buttonProfile; 	
 	private Button btnZoek;
+	private Button btnTweet;
 	private Button btnLogin;
 	private Button btnLoguit;
 	private TwitterModel model;
@@ -35,6 +36,7 @@ public class MainActivity extends Activity implements Observer {
 		model.addObserver(this);
 		model.context = this; //om de context naar deze activitie te zetten
 		btnZoek = (Button)findViewById(R.id.BtnZoekActivity);
+		btnTweet = (Button)findViewById(R.id.btnpostTweet);
 		btnLogin = (Button)findViewById(R.id.BtnLogin);
 		btnLoguit = (Button)findViewById(R.id.BtnLoguit);
 		buttonProfile = (Button) findViewById(R.id.buttonProfile);
@@ -43,10 +45,12 @@ public class MainActivity extends Activity implements Observer {
 			btnLoguit.setVisibility(View.VISIBLE);
 			btnLogin.setVisibility(View.GONE);
 			buttonProfile.setVisibility(View.VISIBLE);
+			btnTweet.setVisibility(View.VISIBLE);
 		}else{
 			btnLoguit.setVisibility(View.GONE);
 			btnLogin.setVisibility(View.VISIBLE);
 			buttonProfile.setVisibility(View.GONE);
+			btnTweet.setVisibility(View.GONE);
 		}
 		
 		btnLogin.setOnClickListener(new OnClickListener(){
@@ -69,6 +73,17 @@ public class MainActivity extends Activity implements Observer {
 				startActivity(intent);
 				
 			}
+		});
+		
+		btnTweet.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				Intent intent  = new Intent(MainActivity.this,TweetActivity.class);
+				startActivity(intent);
+				
+			}
+			
 		});
 		
 		btnZoek.setOnClickListener(new OnClickListener(){
@@ -105,10 +120,12 @@ public class MainActivity extends Activity implements Observer {
 			btnLoguit.setVisibility(View.VISIBLE);
 			btnLogin.setVisibility(View.GONE);
 			buttonProfile.setVisibility(View.VISIBLE);
+			btnTweet.setVisibility(View.VISIBLE);
 		}else{
 			btnLoguit.setVisibility(View.GONE);
 			btnLogin.setVisibility(View.VISIBLE);
 			buttonProfile.setVisibility(View.GONE);
+			btnTweet.setVisibility(View.GONE);
 		}
 	}
 
