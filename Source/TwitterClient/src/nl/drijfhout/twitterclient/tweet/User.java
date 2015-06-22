@@ -23,6 +23,9 @@ public class User {
 	private Bitmap profile_image;
 	private String id_str;
 	private TwitterModel model;
+	private String beschrijving;
+	private String url;
+	private String locatie; 
 	
 	public User(JSONObject user){
 		
@@ -33,6 +36,10 @@ public class User {
 			name = user.getString("name");
 			screen_name = user.getString("screen_name");
 			id_str = user.getString("id_str");
+			beschrijving = user.getString("description");
+			url = user.getString("url");
+			locatie = user.getString("location");
+			
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
@@ -44,7 +51,16 @@ public class User {
 		}
 		
 	}
+	public String getBeschrijving(){
+		return beschrijving;
+	}
+	public String getURL(){
+		return url;
+	}
 	
+	public String getLocatie(){
+		return locatie;
+	}
 	public String getStrId(){
 		return id_str;
 	}

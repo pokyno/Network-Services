@@ -23,6 +23,7 @@ public class MainActivity extends Activity implements Observer {
 	private Button btnTweet;
 	private Button btnLogin;
 	private Button btnLoguit;
+	private Button btnEditProfile;
 	private TwitterModel model;
 	private TwitterApplication app;
 
@@ -35,6 +36,7 @@ public class MainActivity extends Activity implements Observer {
 		model = app.getModel();
 		model.addObserver(this);
 		model.context = this; //om de context naar deze activitie te zetten
+		btnEditProfile = (Button)findViewById(R.id.btnEditProfile);
 		btnZoek = (Button)findViewById(R.id.BtnZoekActivity);
 		btnTweet = (Button)findViewById(R.id.btnpostTweet);
 		btnLogin = (Button)findViewById(R.id.BtnLogin);
@@ -45,13 +47,27 @@ public class MainActivity extends Activity implements Observer {
 			btnLoguit.setVisibility(View.VISIBLE);
 			btnLogin.setVisibility(View.GONE);
 			buttonProfile.setVisibility(View.VISIBLE);
+			btnEditProfile.setVisibility(View.VISIBLE);
 			btnTweet.setVisibility(View.VISIBLE);
 		}else{
 			btnLoguit.setVisibility(View.GONE);
 			btnLogin.setVisibility(View.VISIBLE);
+			btnEditProfile.setVisibility(View.GONE);
 			buttonProfile.setVisibility(View.GONE);
 			btnTweet.setVisibility(View.GONE);
 		}
+		
+		
+		btnEditProfile.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				Intent i = new Intent(MainActivity.this,EditProfile.class);
+				startActivity(i);
+				
+			}
+			
+		});
 		
 		btnLogin.setOnClickListener(new OnClickListener(){
 

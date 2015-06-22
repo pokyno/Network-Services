@@ -23,6 +23,7 @@ import android.view.View;
 import android.widget.TextView;
 
 public class Tweet {
+	private String str_id;
 	private Entities entities;
 	private User user;
 	private String created_at;
@@ -38,12 +39,16 @@ public class Tweet {
 			created_at = tweet.getString("created_at");
 			favorite_count = tweet.getInt("favorite_count");
 			retweet_count = tweet.getInt("retweet_count");
-
+			str_id = tweet.getString("id_str");
 			text = spanText(tweet.getString("text"));
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
 
+	}
+	
+	public String getId(){
+		return str_id;
 	}
 	
 	public Entities getEntities() {

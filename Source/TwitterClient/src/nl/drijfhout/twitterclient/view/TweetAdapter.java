@@ -4,7 +4,9 @@ import java.util.List;
 
 import nl.drijfhout.twitterclient.R;
 import nl.drijfhout.twitterclient.UserProfileActivity;
+import nl.drijfhout.twitterclient.tasks.RetweetTask;
 import nl.drijfhout.twitterclient.tweet.Tweet;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -17,20 +19,31 @@ import android.text.style.ClickableSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class TweetAdapter extends ArrayAdapter<Tweet> {
 
 	private LayoutInflater inflater;
 	private Context context;
+	String userid = "";
 	
 	public TweetAdapter(Context context, int resource, List<Tweet> objects) {
 		super(context, resource, objects);
 		this.context = context;
 		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+	}
+	
+	public TweetAdapter(Context context, int resource, List<Tweet> objects,String id) {
+		super(context, resource, objects);
+		this.context = context;
+		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		userid = id;
 	}
 
 	public View getView(int position, View convertView, ViewGroup parent){
@@ -38,7 +51,7 @@ public class TweetAdapter extends ArrayAdapter<Tweet> {
 			convertView = inflater.inflate(R.layout.tweet, parent,false);
 		}
 		
-		Tweet t = getItem(position);
+		final Tweet t = getItem(position);
 		ImageView profile_image = (ImageView) convertView.findViewById(R.id.imageView1);
 		
 		if(t.getUser().getProfile_image() != null){
@@ -49,6 +62,29 @@ public class TweetAdapter extends ArrayAdapter<Tweet> {
 		TextView username = (TextView) convertView.findViewById(R.id.tvUsername);
 		TextView name = (TextView) convertView.findViewById(R.id.tvName);
 		TextView text = (TextView) convertView.findViewById(R.id.tvText);
+		Button btnRetweet = (Button)convertView.findViewById(R.id.btnRetweet);
+		if(userid != "" && !t.getUser().getStrId().equals(userid)){
+			btnRetweet.setVisibility(View.VISIBLE);
+		}else{
+			btnRetweet.setVisibility(View.GONE);
+		}
+		
+		btnRetweet.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				
+				RetweetTask retweet = new RetweetTask(context);
+				retweet.execute(t.getId());
+				Toast.makeText(context, "Geretweet", Toast.LENGTH_SHORT).show();
+				Intent i = new Intent(context, UserProfileActivity.class);
+				i.putExtra("ID", "0");
+				context.startActivity(i);
+				((Activity)context).finish();
+			}
+			
+		});
+		
 		
 		username.setMovementMethod(LinkMovementMethod.getInstance());
 		name.setMovementMethod(LinkMovementMethod.getInstance());

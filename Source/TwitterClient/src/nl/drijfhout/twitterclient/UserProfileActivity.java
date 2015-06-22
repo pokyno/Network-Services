@@ -55,7 +55,7 @@ public class UserProfileActivity extends Activity implements Observer{
 		username.setText(user.getScreen_name());
 		name.setText(user.getname());
 		
-		adapter = new TweetAdapter(this, 0, model.getUserTimeLine());
+		adapter = new TweetAdapter(this, 0, model.getUserTimeLine(),model.getCurrentUser().getStrId());
 		ListView listViewTimeLine = (ListView) findViewById(R.id.listViewTimeLine);
 		listViewTimeLine.setAdapter(adapter);
 		

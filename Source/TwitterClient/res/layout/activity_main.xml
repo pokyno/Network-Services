@@ -43,6 +43,13 @@
         android:text="Zoek" />
 
     <Button
+        android:id="@+id/btnEditProfile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Wijzig profiel"
+        android:visibility="gone" />
+
+    <Button
         android:id="@+id/BtnLoguit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

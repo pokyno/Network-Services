@@ -34,7 +34,12 @@ public class ZoekActivity extends Activity implements Observer {
 		model.context = this; //om de context naar deze activitie te zetten
 		
 		edtZoekterm = (EditText) findViewById(R.id.edtTweet);
-		adapter = new TweetAdapter(this,0,model.getTweets());
+		if(model.getCurrentUser() != null){
+			adapter = new TweetAdapter(this,0,model.getTweets(),model.getCurrentUser().getStrId());
+		}else{
+			adapter = new TweetAdapter(this,0,model.getTweets());	
+		}
+		
 		
 		
 		listView = (ListView) findViewById(R.id.listViewTimeLine);

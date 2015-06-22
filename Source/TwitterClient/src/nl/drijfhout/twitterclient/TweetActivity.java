@@ -37,6 +37,7 @@ public class TweetActivity extends Activity {
 				Intent i = new Intent(TweetActivity.this,UserProfileActivity.class);
 				i.putExtra("ID", "0");
 				startActivity(i);
+				finish();
 				}
 				
 			}
