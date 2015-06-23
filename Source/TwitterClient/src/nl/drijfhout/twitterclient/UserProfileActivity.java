@@ -36,13 +36,16 @@ public class UserProfileActivity extends Activity implements Observer{
 		//optie voor later veranderen
 		
 		id = getIntent().getStringExtra("ID");
+		Log.i("id", id);
 		if(id.equals(CURRENT_PROFILE)){ // current profile heb ik het id 0 gegeven
 			user = model.getCurrentUser();
 			model.pullCurrentUserTimeLine();
 		}else{
 			Log.i("test","i came this far");
 			user = model.getSelectedUser(id);
+			Log.i("test", user.toString());
 			model.pullUserTimeLine(id);
+			
 		}
 		
 		profile_image = (ImageView) findViewById(R.id.imageView1);

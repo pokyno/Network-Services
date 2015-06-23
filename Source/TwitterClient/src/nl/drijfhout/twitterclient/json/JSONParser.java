@@ -16,6 +16,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
+import android.util.Log;
 
 public class JSONParser {
 	private ArrayList<Tweet> tweets;
@@ -111,6 +112,42 @@ public class JSONParser {
 		return user;
 	}
 	
+	public ArrayList<User> getUsers(String usersJSON) throws IOException{
+		ArrayList<User> userlist = new ArrayList<User>();
+		BufferedReader br = null;
+		StringBuilder sb = new StringBuilder();
+		String text = "";
+		String line;
+		try {
+			InputStream is =  new ByteArrayInputStream(usersJSON.getBytes(StandardCharsets.UTF_8));
+			br = new BufferedReader(new InputStreamReader(is));
+			while ((line = br.readLine()) != null) {
+				sb.append(line);
+			}
+			
+			try {
+				JSONObject friendsObject = new JSONObject(sb.toString());
+				JSONArray users = friendsObject.getJSONArray("users"); 
+				
+				for(int i = 0; i<users.length();i++){
+					JSONObject user = users.getJSONObject(i);
+					Log.i("userJSON", user+"");
+					userlist.add(new User(user));
+				}
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+            throw e;
+		}
+		return userlist;
+	}
+	
+	
+	//kan ook in een ff overleggen met frank
 	public ArrayList<Tweet> getTimeLine(String filename){// tijdenlijk met file name
 		try {
 			readTimeLineAssetsIntoString(filename);

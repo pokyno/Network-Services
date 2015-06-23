@@ -45,6 +45,14 @@
             android:name=".EditProfile"
             android:label="@string/title_activity_edit_profile" >
         </activity>
+        <activity
+            android:name=".FriendsActivity"
+            android:label="@string/title_activity_friends" >
+        </activity>
+        <activity
+            android:name=".FollowersActivity"
+            android:label="@string/title_activity_followers" >
+        </activity>
     </application>
 
 </manifest>

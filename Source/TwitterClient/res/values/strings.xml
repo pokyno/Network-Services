@@ -9,5 +9,7 @@
     <string name="title_activity_user_profile">UserProfileActivity</string>
     <string name="title_activity_tweet">TweetActivity</string>
     <string name="title_activity_edit_profile">EditProfile</string>
+    <string name="title_activity_friends">FriendsActivity</string>
+    <string name="title_activity_followers">FollowersActivity</string>
 
 </resources>

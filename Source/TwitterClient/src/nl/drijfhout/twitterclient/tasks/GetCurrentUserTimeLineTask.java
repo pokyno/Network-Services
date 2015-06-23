@@ -69,7 +69,8 @@ public class GetCurrentUserTimeLineTask extends AsyncTask<String, Void, ArrayLis
 	@Override
 	protected void onPostExecute(ArrayList<Tweet> result) {
 		super.onPostExecute(result);
-		model.userTimeLine = result;
+		model.setUserTimeLine(result);
+		model.notifyObservers();
 	}
 	
 	

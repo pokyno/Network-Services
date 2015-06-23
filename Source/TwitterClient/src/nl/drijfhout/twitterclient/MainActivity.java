@@ -24,6 +24,8 @@ public class MainActivity extends Activity implements Observer {
 	private Button btnLogin;
 	private Button btnLoguit;
 	private Button btnEditProfile;
+	private Button buttonFriends;
+	private Button buttonFollowers;
 	private TwitterModel model;
 	private TwitterApplication app;
 
@@ -42,6 +44,8 @@ public class MainActivity extends Activity implements Observer {
 		btnLogin = (Button)findViewById(R.id.BtnLogin);
 		btnLoguit = (Button)findViewById(R.id.BtnLoguit);
 		buttonProfile = (Button) findViewById(R.id.buttonProfile);
+		buttonFriends = (Button) findViewById(R.id.buttonFriends);
+		buttonFollowers = (Button) findViewById(R.id.buttonFollowers);
 		
 		if(model.isLoggedIn()){
 			btnLoguit.setVisibility(View.VISIBLE);
@@ -49,11 +53,15 @@ public class MainActivity extends Activity implements Observer {
 			buttonProfile.setVisibility(View.VISIBLE);
 			btnEditProfile.setVisibility(View.VISIBLE);
 			btnTweet.setVisibility(View.VISIBLE);
+			buttonFriends.setVisibility(View.VISIBLE);
+			buttonFollowers.setVisibility(View.VISIBLE);
 		}else{
 			btnLoguit.setVisibility(View.GONE);
 			btnLogin.setVisibility(View.VISIBLE);
 			btnEditProfile.setVisibility(View.GONE);
 			buttonProfile.setVisibility(View.GONE);
+			buttonFriends.setVisibility(View.GONE);
+			buttonFollowers.setVisibility(View.GONE);
 			btnTweet.setVisibility(View.GONE);
 		}
 		
@@ -126,7 +134,27 @@ public class MainActivity extends Activity implements Observer {
 			
 		});
 		
+		buttonFriends.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(MainActivity.this, FriendsActivity.class);
+				startActivity(intent);
+			}
+		});
+		
+		buttonFollowers.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(MainActivity.this, FollowersActivity.class);
+				startActivity(intent);
+				
+			}
+		});
 	}
+	
+	
 
 
 	@Override
@@ -137,11 +165,17 @@ public class MainActivity extends Activity implements Observer {
 			btnLogin.setVisibility(View.GONE);
 			buttonProfile.setVisibility(View.VISIBLE);
 			btnTweet.setVisibility(View.VISIBLE);
+			buttonFriends.setVisibility(View.VISIBLE);
+			buttonFollowers.setVisibility(View.VISIBLE);
+			btnEditProfile.setVisibility(View.VISIBLE);
 		}else{
 			btnLoguit.setVisibility(View.GONE);
 			btnLogin.setVisibility(View.VISIBLE);
 			buttonProfile.setVisibility(View.GONE);
 			btnTweet.setVisibility(View.GONE);
+			buttonFriends.setVisibility(View.GONE);
+			buttonFollowers.setVisibility(View.GONE);
+			btnEditProfile.setVisibility(View.GONE);
 		}
 	}
 

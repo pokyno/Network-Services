@@ -2,6 +2,8 @@ package nl.drijfhout.twitterclient.model;
 
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.Observable;
 import java.util.concurrent.ExecutionException;
 
@@ -12,6 +14,8 @@ import nl.drijfhout.twitterclient.LoginActivity;
 import nl.drijfhout.twitterclient.TwitterApplication;
 import nl.drijfhout.twitterclient.login.AuthorizationManager;
 import nl.drijfhout.twitterclient.tasks.GetCurrentUserTimeLineTask;
+import nl.drijfhout.twitterclient.tasks.GetFollowersTask;
+import nl.drijfhout.twitterclient.tasks.GetFriendsTask;
 import nl.drijfhout.twitterclient.tasks.GetTokenTask;
 import nl.drijfhout.twitterclient.tasks.GetUserTask;
 import nl.drijfhout.twitterclient.tasks.GetUserTimeLineTask;
@@ -26,9 +30,12 @@ public class TwitterModel extends Observable{
 	
 	//alles van de current user
 	private User currentUser;
-	public ArrayList<Tweet> userTimeLine;
+	private ArrayList<Tweet> userTimeLine;
 	
+	//friends
+	private ArrayList<User> friends;
 	
+	private ArrayList<User> followers;
 	
 	private static String token = "";
 	public static Context context;
@@ -43,6 +50,8 @@ public class TwitterModel extends Observable{
 		user_secret = PreferenceManager.getDefaultSharedPreferences(context).getString("SECRET", "");
 		tweets = new ArrayList<Tweet>();
 		userTimeLine = new ArrayList<Tweet>();
+		friends = new ArrayList<User>();
+		followers = new ArrayList<User>();
 		
 		if(user_token!=""){
 			pullCurrentUser(); // voor als de user al eens ingelogd is
@@ -95,6 +104,10 @@ public class TwitterModel extends Observable{
 		currentUser = user;
 	}
 	
+	public void setUserTimeLine(ArrayList<Tweet> statusus){
+		this.userTimeLine = statusus;
+	}
+	
 	public User getCurrentUser(){
 		return currentUser;
 	}
@@ -137,7 +150,12 @@ public class TwitterModel extends Observable{
 		GetUserTimeLineTask task = new GetUserTimeLineTask(user_token,user_secret,context, this,id);
 		task.execute();
 	}
-
+	
+	/**
+	 * geeft het user object bij een specefiek id
+	 * @param id het id van de tevinden persoon
+	 * @return user bij het id
+	 */
 	public User getSelectedUser(String id) {
 		User user = null;
 		for(Tweet t : userTimeLine){
@@ -152,7 +170,56 @@ public class TwitterModel extends Observable{
 				user = temp;
 			}
 		}
+		for(User u: friends){
+			if(u.getStrId().equals(id)){
+				user = u;
+			}
+		}
+		for(User u : followers){
+			if(u.getStrId().equals(id)){
+				user = u;
+			}
+		}
 		return user;
+	}
+	
+	
+	/**
+	 * start de task om de friends van de current user op te halen
+	 */
+	public void pullFriends() {
+		friends.clear();
+		GetFriendsTask task = new GetFriendsTask(user_token,user_secret,context, this);
+		task.execute();
+	}
+	/**
+	 * geeft een lijst met de current users zijn frienden
+	 * @return friends van current user
+	 */
+	public ArrayList<User> getFriends() {
+		return friends;
+	}
+	
+	
+	public void setFriends(ArrayList<User> friends){
+		this.friends = friends;
+	}
+	
+	/**
+	 * start de task om de followers van de current user op te halen
+	 */
+	public void pullFollowers() {
+		followers.clear();
+		GetFollowersTask task = new GetFollowersTask(user_token,user_secret,context, this);
+		task.execute();
+	}
+
+	public List<User> getFollowers() {
+		return followers;
+	}
+	
+	public void setFollowers(ArrayList<User> followers){
+		this.followers = followers;
 	}
 	
 }
