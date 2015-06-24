@@ -26,45 +26,49 @@ public class TwitterModel extends Observable{
 	
 	//alles van de current user
 	private User currentUser;
-	private ArrayList<Tweet> userTimeLine;
+	private ArrayList<Tweet> userTimeLine; //deze wordt gebruikt als de userTimeLine en de current userTimeLine omdat die toch nooit tegelijk kunnen worden bekeken
 	
-	//friends
 	private ArrayList<User> friends;
 	
 	private ArrayList<User> followers;
 	
 	private static String token = "";
-	public static Context context;
 	
-	public ArrayList<Tweet> tweets;//comment
+	public static Context context; //dit is gedaan zodat de context makelijk overal te verkrijgen was met name het ophalen van tweets
+	
+	public ArrayList<Tweet> tweets;
 	
 	public TwitterModel(Context context){
 		TwitterModel.context = context;
+		
 		GetTokenTask taak = new GetTokenTask();
 		user_token = PreferenceManager.getDefaultSharedPreferences(context).getString("TOKEN", "");
 		Log.d("token!!", user_token);
 		user_secret = PreferenceManager.getDefaultSharedPreferences(context).getString("SECRET", "");
+		
 		tweets = new ArrayList<Tweet>();
 		userTimeLine = new ArrayList<Tweet>();
 		friends = new ArrayList<User>();
 		followers = new ArrayList<User>();
 		
-		if(user_token!=""){
-			pullCurrentUser(); // voor als de user al eens ingelogd is
+		if(isLoggedIn()){
+			pullCurrentUser(); //als de user al eens is ingelogd  wordt de user data opgehaald
 		}
+		
 		try {
 			token = taak.execute().get();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (ExecutionException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 		
 	}
 	
+	/**
+	 * clears de user token en user secret
+	 */
 	public void clearUserToken(){
 		setToken("");
 		setUserSecret("");
@@ -75,27 +79,47 @@ public class TwitterModel extends Observable{
 	public String getUserToken(){
 		return user_token;
 	}
+	
+	/**
+	 * kijkt of de user is ingelogd
+	 * @return true als de user is ingelogd anders false
+	 */
 	public boolean isLoggedIn(){
 		return user_token !="";
 	}
+	
 	public String getUserSecret(){
 		return user_secret;
 	}
 	
+	/**
+	 * sets de user token
+	 * @param user_token 
+	 */
 	public void setToken(String user_token){
 		this.user_token = user_token;
 		setChanged();
 		notifyObservers();
 	}
+	
+	/**
+	 * sets de user secret
+	 * @param user_secret
+	 */
 	public void setUserSecret(String user_secret){
 		this.user_secret = user_secret;
 	}
+	
+	/**
+	 * zoekt naar de tweets met een async task
+	 * @param searchTerm de zoekterm van wat je wilt zoeken
+	 */
 	public void searchForTweet(String searchTerm){
 		SearchTweetTask task = new SearchTweetTask(token,context);
-		
 		task.execute(searchTerm);
 		
 	}
+	
 	public void setCurrentUser(User user){
 		currentUser = user;
 	}
@@ -117,30 +141,48 @@ public class TwitterModel extends Observable{
 	}
 	
 	public ArrayList<Tweet> getTweets(){
-		return tweets;
+		return new ArrayList<Tweet>(tweets);
 	}
 	
+	/**
+	 * roept de onUpdate() aan van alle observers
+	 */
 	public void refresh(){
 		setChanged();
 		notifyObservers();
 	}
 	
+	/**
+	 * zet de variabel tweets naar de meegegeven parameter
+	 * @param tweets een lijst met tweet objecten
+	 */
 	public void setTweets(ArrayList<Tweet> tweets){
 		this.tweets = tweets;
 		setChanged();
 		notifyObservers();
 	}
+	
+	/**
+	 * start een asynctask om de current user op te halen
+	 */
 	public void pullCurrentUser() {
 		GetUserTask task = new GetUserTask(user_token,user_secret,context, this);
 		task.execute();
 	}
 	
+	/**
+	 * start een asynctask om de current user timeline op te halen
+	 */
 	public void pullCurrentUserTimeLine() {
 		userTimeLine.clear();
 		GetCurrentUserTimeLineTask task = new GetCurrentUserTimeLineTask(user_token,user_secret,context, this);
 		task.execute();
 	}
 	
+	/**
+	 * start een asynctask om een user timeline op te halen
+	 * @param id van de eigenaar van de timeline
+	 */
 	public void pullUserTimeLine(String id){
 		userTimeLine.clear();
 		GetUserTimeLineTask task = new GetUserTimeLineTask(user_token,user_secret,context, this,id);
@@ -181,19 +223,20 @@ public class TwitterModel extends Observable{
 	
 	
 	/**
-	 * start de task om de friends van de current user op te halen
+	 * start de asynctask om de friends van de current user op te halen
 	 */
 	public void pullFriends() {
 		friends.clear();
 		GetFriendsTask task = new GetFriendsTask(user_token,user_secret,context, this);
 		task.execute();
 	}
+	
 	/**
 	 * geeft een lijst met de current users zijn frienden
 	 * @return friends van current user
 	 */
 	public ArrayList<User> getFriends() {
-		return friends;
+		return new ArrayList<User>(friends);
 	}
 	
 	
@@ -202,7 +245,7 @@ public class TwitterModel extends Observable{
 	}
 	
 	/**
-	 * start de task om de followers van de current user op te halen
+	 * start de asynctask om de followers van de current user op te halen
 	 */
 	public void pullFollowers() {
 		followers.clear();
@@ -211,7 +254,7 @@ public class TwitterModel extends Observable{
 	}
 
 	public List<User> getFollowers() {
-		return followers;
+		return new ArrayList<User>(followers);
 	}
 	
 	public void setFollowers(ArrayList<User> followers){

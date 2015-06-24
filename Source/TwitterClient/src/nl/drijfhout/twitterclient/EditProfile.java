@@ -15,10 +15,12 @@ public class EditProfile extends Activity {
 	private EditText edtName,edtURL,edtLocatie,edtBeschrijving;
 	private TwitterModel model;
 	private Button btnEditProfile;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_edit_profile);
+		
 		edtName = (EditText)findViewById(R.id.edtEditProfilenaam);
 		edtURL = (EditText)findViewById(R.id.edtEditProfileURL);
 		edtLocatie = (EditText)findViewById(R.id.edtEditProfileLocatie);

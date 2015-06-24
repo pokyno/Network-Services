@@ -17,9 +17,8 @@ import org.apache.http.impl.client.DefaultHttpClient;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
 
-public class GetUserTimeLineTask  extends AsyncTask<String, Void, ArrayList<Tweet>> {
+public class GetUserTimeLineTask extends AsyncTask<String, Void, ArrayList<Tweet>> {
 	private String user_token;
 	private String user_secret;
 	private Context context;
@@ -27,7 +26,7 @@ public class GetUserTimeLineTask  extends AsyncTask<String, Void, ArrayList<Twee
 	private AuthorizationManager manager;
 	private String id;
 
-	public GetUserTimeLineTask(String token, String secret, Context context,TwitterModel model,String id) {
+	public GetUserTimeLineTask(String token, String secret, Context context, TwitterModel model, String id) {
 		this.user_token = token;
 		this.user_secret = secret;
 		this.context = context;
@@ -40,29 +39,25 @@ public class GetUserTimeLineTask  extends AsyncTask<String, Void, ArrayList<Twee
 	@Override
 	protected ArrayList<Tweet> doInBackground(String... params) {
 		ArrayList<Tweet> tweets = new ArrayList<Tweet>();
-		
+
 		manager.setTokenAndSecret(user_token, user_secret);
 
 		DefaultHttpClient mClient = new DefaultHttpClient();
 
-		HttpGet get = new HttpGet("https://api.twitter.com/1.1/statuses/user_timeline.json"+"?user_id="+ id);
-		
+		HttpGet get = new HttpGet("https://api.twitter.com/1.1/statuses/user_timeline.json"	+ "?user_id=" + id);
+
 		try {
 			manager.signWithUserToken(get);
 			String response = mClient.execute(get, new BasicResponseHandler());
-			Log.i("response", response);
 			tweets = new JSONParser(context).getTimeLine(response);
 		} catch (ClientProtocolException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (OAuthException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		return tweets;
 	}
 
@@ -70,6 +65,6 @@ public class GetUserTimeLineTask  extends AsyncTask<String, Void, ArrayList<Twee
 	protected void onPostExecute(ArrayList<Tweet> result) {
 		super.onPostExecute(result);
 		model.setUserTimeLine(result);
-		model.notifyObservers();
+		model.refresh();
 	}
 }

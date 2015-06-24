@@ -52,7 +52,7 @@ public class LoginActivity extends Activity {
 					String secret = manager.getConsumerTokenSecret();
 					model.setToken(token);
 					model.setUserSecret(secret);
-					model.pullCurrentUser(); //voor na het inloggen
+					model.pullCurrentUser(); //voor na het inloggen om meteen de current user op te halen
 					PreferenceManager.getDefaultSharedPreferences(LoginActivity.this).edit().putString("TOKEN", token).commit();
 					PreferenceManager.getDefaultSharedPreferences(LoginActivity.this).edit().putString("SECRET", secret).commit();
 					finish();

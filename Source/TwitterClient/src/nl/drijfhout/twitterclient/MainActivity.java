@@ -7,7 +7,6 @@ import nl.drijfhout.twitterclient.model.TwitterModel;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -31,10 +30,12 @@ public class MainActivity extends Activity implements Observer {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		
 		app = (TwitterApplication) getApplicationContext();
 		model = app.getModel();
 		model.addObserver(this);
 		TwitterModel.context = this; //om de context naar deze activitie te zetten
+		
 		btnEditProfile = (Button)findViewById(R.id.btnEditProfile);
 		btnZoek = (Button)findViewById(R.id.BtnZoekActivity);
 		btnTweet = (Button)findViewById(R.id.btnpostTweet);
@@ -62,7 +63,7 @@ public class MainActivity extends Activity implements Observer {
 			btnTweet.setVisibility(View.GONE);
 		}
 		
-		
+		// onclick listeners om de verschillende activities te starten
 		btnEditProfile.setOnClickListener(new OnClickListener(){
 
 			@Override
@@ -92,7 +93,6 @@ public class MainActivity extends Activity implements Observer {
 				Intent intent = new Intent(MainActivity.this, UserProfileActivity.class);
 				intent.putExtra("ID",UserProfileActivity.CURRENT_PROFILE);
 				startActivity(intent);
-				
 			}
 		});
 		
@@ -102,7 +102,6 @@ public class MainActivity extends Activity implements Observer {
 			public void onClick(View v) {
 				Intent intent  = new Intent(MainActivity.this,TweetActivity.class);
 				startActivity(intent);
-				
 			}
 			
 		});
@@ -113,7 +112,6 @@ public class MainActivity extends Activity implements Observer {
 			public void onClick(View v) {
 				Intent intent = new Intent(MainActivity.this,ZoekActivity.class);
 				startActivity(intent);
-				
 			}
 			
 		});
@@ -122,8 +120,6 @@ public class MainActivity extends Activity implements Observer {
 
 			@Override
 			public void onClick(View v) {
-				
-				
 				model.clearUserToken();
 				app.getAuthorizationManager().setTokenAndSecret("", "");
 			
@@ -153,10 +149,9 @@ public class MainActivity extends Activity implements Observer {
 	
 	
 
-
+	// deze update methode word gebruikt om alles waar een niet ingelogde gebruiker geen toegang tot heeft dat ook niet heeft 
 	@Override
 	public void update(Observable observable, Object data) {
-		Log.d("Werkt dit", "hoop het wel :P");
 		if(model.isLoggedIn()){
 			btnLoguit.setVisibility(View.VISIBLE);
 			btnLogin.setVisibility(View.GONE);

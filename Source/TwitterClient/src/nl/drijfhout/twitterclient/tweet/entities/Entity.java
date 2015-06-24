@@ -16,7 +16,6 @@ public abstract class Entity {
 			this.indices[0] = indices.getInt(0);
 			this.indices[1] = indices.getInt(1);
 		} catch (JSONException e) {
-			
 			Log.i("Fail", "fail at entity");
 		}
 	}

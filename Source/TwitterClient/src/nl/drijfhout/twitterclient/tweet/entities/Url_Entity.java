@@ -5,10 +5,10 @@ import org.json.JSONObject;
 
 import android.util.Log;
 
-public class Url_Entity extends Entity{
+public class Url_Entity extends Entity {
 	private String url;
 	private String display_url;
-	
+
 	public Url_Entity(JSONObject entityObject) {
 		super(entityObject);
 		try {
@@ -17,16 +17,15 @@ public class Url_Entity extends Entity{
 		} catch (JSONException e) {
 			Log.i("Fail", "at url etity");
 		}
-		
-	}
-	
-	public String getUrl(){
-		return url;
-	}
-	
-	public String getDisplay_url(){
-		return display_url;
+
 	}
 
+	public String getUrl() {
+		return url;
+	}
+
+	public String getDisplay_url() {
+		return display_url;
+	}
 
 }

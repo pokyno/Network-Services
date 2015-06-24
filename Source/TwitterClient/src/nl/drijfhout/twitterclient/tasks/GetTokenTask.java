@@ -16,61 +16,47 @@ import org.json.JSONObject;
 import android.os.AsyncTask;
 import android.util.Base64;
 
-public class GetTokenTask extends AsyncTask<Void,Void,String>{
+public class GetTokenTask extends AsyncTask<Void, Void, String> {
 
-	private	static final String	API_KEY	= "k4xSeNaViDzSHgN1pV4822y8Z";
-	private	static	final	String	API_SECRET	= "hcxPzrRWMKmCFLmKLWaegEaMfKPp8jyFCE3SnQQfojrRxvBGne";
+	private static final String API_KEY = "k4xSeNaViDzSHgN1pV4822y8Z";
+	private static final String API_SECRET = "hcxPzrRWMKmCFLmKLWaegEaMfKPp8jyFCE3SnQQfojrRxvBGne";
 	private String token = "";
-	
-	
-		@Override
-		protected String doInBackground(Void... params) {
-			
-			String	authString	=	API_KEY + ":"	+ API_SECRET;
-			String	base64	=	Base64.encodeToString(authString.getBytes(),Base64.NO_WRAP);	
-		
-			HttpPost request = new HttpPost("https://api.twitter.com/oauth2/token");	
-			request.setHeader("Authorization", "Basic "	+	base64);	
-			request.setHeader("Content-Type","application/x-www-form-urlencoded;charset=UTF-8");	
-			try {
-				request.setEntity(	new StringEntity("grant_type=client_credentials"));
-			} catch (UnsupportedEncodingException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-			HttpClient client = new DefaultHttpClient();	
-			
-				
-			ResponseHandler<String> handler = new BasicResponseHandler();	
-			String result = "";
-			try 
-			{
-				result = client.execute(request, handler);
-			} catch (ClientProtocolException e) 
-			{
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) 
-			{
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-			
-			try {
-				JSONObject obj = new JSONObject(result);
-				token = obj.getString("access_token");
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-			
-			return token;
+
+	@Override
+	protected String doInBackground(Void... params) {
+
+		String authString = API_KEY + ":" + API_SECRET;
+		String base64 = Base64.encodeToString(authString.getBytes(),Base64.NO_WRAP);
+
+		HttpPost request = new HttpPost("https://api.twitter.com/oauth2/token");
+		request.setHeader("Authorization", "Basic " + base64);
+		request.setHeader("Content-Type","application/x-www-form-urlencoded;charset=UTF-8");
+		try {
+			request.setEntity(new StringEntity("grant_type=client_credentials"));
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
 		}
 
-		
-		
-	
+		HttpClient client = new DefaultHttpClient();
+
+		ResponseHandler<String> handler = new BasicResponseHandler();
+		String result = "";
+		try {
+			result = client.execute(request, handler);
+		} catch (ClientProtocolException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		try {
+			JSONObject obj = new JSONObject(result);
+			token = obj.getString("access_token");
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+
+		return token;
+	}
+
 }

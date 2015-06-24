@@ -43,7 +43,7 @@ public class UserAdapter extends ArrayAdapter<User>{
 		
 		ImageView profile_image = (ImageView) convertView.findViewById(R.id.imageViewProfilePicture);
 		
-		if(user.getProfile_image() != null){
+		if(user.getProfile_image() != null){// als er geen profile image is wordt er een standaard plaatje weergegeven
 			profile_image.setImageBitmap(user.getProfile_image()); 
 		}
 		
@@ -53,13 +53,15 @@ public class UserAdapter extends ArrayAdapter<User>{
 		TextView followers = (TextView) convertView.findViewById(R.id.textViewFollwers);
 		TextView following = (TextView) convertView.findViewById(R.id.textViewFollowing);
 		
+		// als de namen bij elkaar te lang zijn voor de view 
+		//worden ze op twee verschillende lijnen weergegeven 
+		//(we hebben 25 als max length gemaakt op basis van trial en error)
 		LinearLayout namelayout = (LinearLayout) convertView.findViewById(R.id.nameLayout);
 		if(user.getScreen_name().length() + user.getname().length() > 25){
 			namelayout.setOrientation(LinearLayout.VERTICAL);
 		}else{
 			namelayout.setOrientation(LinearLayout.HORIZONTAL);
 		}
-		
 		
 		username.setMovementMethod(LinkMovementMethod.getInstance());
 		name.setMovementMethod(LinkMovementMethod.getInstance());
@@ -73,11 +75,15 @@ public class UserAdapter extends ArrayAdapter<User>{
 		username.setTextColor(Color.BLACK);
 		name.setTextColor(Color.BLACK);
 		
-		
-		
 		return convertView;
 	}
 	
+	/**
+	 * spand de text zodat ze clickable worden (met een standaard functie)
+	 * @param text de text om te spannen
+	 * @param id het id van de te bekijken user
+	 * @return een gespande text
+	 */
 	private Spannable spanText(String text,final String id) {// final????
 		Spannable WordtoSpan = new SpannableString(text);
 		
@@ -93,13 +99,9 @@ public class UserAdapter extends ArrayAdapter<User>{
 			}
 		};
 
-		WordtoSpan.setSpan(clickableSpan, 0, text.length(),
-				Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+		WordtoSpan.setSpan(clickableSpan, 0, text.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 		
 		return WordtoSpan;
-	
 	}
 	
-	
-
 }

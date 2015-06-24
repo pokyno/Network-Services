@@ -17,20 +17,21 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.Log;
 
-public class Media_Entity extends Entity{
-	
+public class Media_Entity extends Entity {
+
 	private String media_url;
 	private String url;
 	private String display_url;
 	private Bitmap image;
 	private TwitterModel model;
-	
+
 	public Media_Entity(JSONObject entityObject) {
 		super(entityObject);
-		
-		TwitterApplication app = (TwitterApplication) TwitterModel.context.getApplicationContext();
+
+		TwitterApplication app = (TwitterApplication) TwitterModel.context
+				.getApplicationContext();
 		model = app.getModel();
-		
+
 		try {
 			this.media_url = entityObject.getString("media_url");
 			this.url = entityObject.getString("url");
@@ -38,62 +39,66 @@ public class Media_Entity extends Entity{
 		} catch (JSONException e) {
 			Log.i("Fail", "at media");
 		}
-		try{
+		
+		// de code hieronder haalt de image van de tweet op
+		try {
 			DownloadImagesTask task = new DownloadImagesTask();
 			task.execute(entityObject.getString("media_url"));
-		}catch(JSONException e){
-			
+		} catch (JSONException e) {
+
 		}
-		
+
 	}
-	
-	public String getMedia_url(){
+
+	public String getMedia_url() {
 		return media_url;
 	}
-	
-	public String getUrl(){
+
+	public String getUrl() {
 		return url;
 	}
-	
-	public String getDisplay_Url(){
+
+	public String getDisplay_Url() {
 		return display_url;
 	}
-	
-	public Bitmap getImage(){
+
+	public Bitmap getImage() {
 		return image;
 	}
 	
+	/**
+	 * deze async word gebruikt om een image van het net op te halen
+	 */
 	public class DownloadImagesTask extends AsyncTask<String, Void, Bitmap> {
-		
+
 		@Override
 		protected Bitmap doInBackground(String... urls) {
-		    return download_Image(urls[0]);
+			return download_Image(urls[0]);
 		}
 
 		@Override
 		protected void onPostExecute(Bitmap result) {
-		   image = result;
-		   model.refresh();
+			image = result;
+			model.refresh();
 		}
 
-
 		private Bitmap download_Image(String url) {
-		    //---------------------------------------------------
-		    Bitmap bm = null;
-		    try {
-		        URL aURL = new URL(url);
-		        URLConnection conn = aURL.openConnection();
-		        conn.connect();
-		        InputStream is = conn.getInputStream();
-		        BufferedInputStream bis = new BufferedInputStream(is);
-		        bm = BitmapFactory.decodeStream(bis);
-		        bis.close();
-		        is.close();
-		    } catch (IOException e) {
-		        Log.e("Hub","Error getting the image from server : " + e.getMessage().toString());
-		    } 
-		    return bm;
-		    //---------------------------------------------------
+			// ---------------------------------------------------
+			Bitmap bm = null;
+			try {
+				URL aURL = new URL(url);
+				URLConnection conn = aURL.openConnection();
+				conn.connect();
+				InputStream is = conn.getInputStream();
+				BufferedInputStream bis = new BufferedInputStream(is);
+				bm = BitmapFactory.decodeStream(bis);
+				bis.close();
+				is.close();
+			} catch (IOException e) {
+				Log.e("Hub", "Error getting the image from server : " + e.getMessage().toString());
+			}
+			return bm;
+			// ---------------------------------------------------
 		}
 	}
 

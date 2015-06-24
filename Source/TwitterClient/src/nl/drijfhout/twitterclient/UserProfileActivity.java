@@ -14,7 +14,6 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -22,7 +21,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 public class UserProfileActivity extends Activity implements Observer{
-	public static final String CURRENT_PROFILE = "0";
+	public static final String CURRENT_PROFILE = "0"; //word gebruikt als basis voor als het om de current user gaat
 	private String id;
 	private User user;
 	private TwitterModel model;
@@ -38,24 +37,20 @@ public class UserProfileActivity extends Activity implements Observer{
 		model.addObserver(this);
 		TwitterModel.context = this; //om de context naar deze activitie te zetten
 		
-		//optie voor later veranderen
 		
+		//kijkt welke stappen hij moet doen per situatie 
 		id = getIntent().getStringExtra("ID");
-		Log.i("id", id);
-		if(id.equals(CURRENT_PROFILE)){ // current profile heb ik het id 0 gegeven
+		if(id.equals(CURRENT_PROFILE)){ // bij current user moet ik een andere tijdlijn gebruiken dan bij de rest
 			user = model.getCurrentUser();
 			model.pullCurrentUserTimeLine();
 		}else{
-			Log.i("test","i came this far");
 			user = model.getSelectedUser(id);
-			Log.i("test", user.toString());
 			model.pullUserTimeLine(id);
-			
 		}
 		
 		ImageView profile_image = (ImageView) findViewById(R.id.imageViewProfilePicture);
 		
-		if(user.getProfile_image() != null){
+		if(user.getProfile_image() != null){ //als iemand geen plaatje heeft krijgt hij een standaard plaatje
 			profile_image.setImageBitmap(user.getProfile_image()); 
 		}
 		
@@ -65,6 +60,7 @@ public class UserProfileActivity extends Activity implements Observer{
 		TextView followers = (TextView) findViewById(R.id.textViewFollwers);
 		TextView following = (TextView) findViewById(R.id.textViewFollowing);
 		
+		// als de namen bij elkaar te lang zijn voor de view worden ze op twee verschillende lijnen weergegeven (we hebben 25 als max length gemaakt op basis van trial en error)
 		LinearLayout namelayout = (LinearLayout) findViewById(R.id.nameLayout);
 		if(user.getScreen_name().length() + user.getname().length() > 25){
 			namelayout.setOrientation(LinearLayout.VERTICAL);
@@ -91,14 +87,13 @@ public class UserProfileActivity extends Activity implements Observer{
 		
 	}
 	
-	private Spannable spanText(String text,final String id) {// final????
+	private Spannable spanText(String text,final String id) {
 		Spannable WordtoSpan = new SpannableString(text);
 		
 		ClickableSpan clickableSpan = new ClickableSpan() {
 
 			@Override
 			public void onClick(View widget) {
-				Log.i("test","click");
 				Intent intent = new Intent(UserProfileActivity.this,UserProfileActivity.class);
 				intent.putExtra("ID", id);
 				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

@@ -18,10 +18,11 @@ public class Entities {
 
 	private ArrayList<Entity> entities;
 
-	// moet nog aan gewerkt worden
 	public Entities(JSONObject entities) {
-		Log.i("stage2", "reached");
 		this.entities = new ArrayList<Entity>();
+		// dit zorgt ervoor dat de entities list automatisch gevuld wordt met
+		// alle entities(met afvanging voor als er soms een entitie niet
+		// bestaat)
 		try {
 			JSONArray urls = entities.getJSONArray("urls");
 			for (int counter = 0; counter < urls.length(); counter++) {
@@ -70,6 +71,11 @@ public class Entities {
 
 	}
 
+	/**
+	 * geeft een lijst met alle url entities
+	 * 
+	 * @return de lijst met url entities
+	 */
 	public ArrayList<Url_Entity> getUrls() {
 		ArrayList<Url_Entity> returnArray = new ArrayList<Url_Entity>();
 		for (Entity e : entities) {
@@ -81,6 +87,11 @@ public class Entities {
 		return returnArray;
 	}
 
+	/**
+	 * geeft een lijst met alle usermention entities
+	 * 
+	 * @return de lijst met usermention entities
+	 */
 	public ArrayList<User_Mentions_Entity> getUser_Mentions() {
 		ArrayList<User_Mentions_Entity> returnArray = new ArrayList<User_Mentions_Entity>();
 		for (Entity e : entities) {
@@ -91,6 +102,11 @@ public class Entities {
 		return returnArray;
 	}
 
+	/**
+	 * geeft een lijst met alle media entities
+	 * 
+	 * @return de lijst met media entities
+	 */
 	public ArrayList<Media_Entity> getMedia() {
 		ArrayList<Media_Entity> returnArray = new ArrayList<Media_Entity>();
 		for (Entity e : entities) {
@@ -101,6 +117,11 @@ public class Entities {
 		return returnArray;
 	}
 
+	/**
+	 * geeft een lijst met alle hashtag entities
+	 * 
+	 * @return de lijst met hashtag entities
+	 */
 	public ArrayList<Hashtags_Entity> getHashtags() {
 		ArrayList<Hashtags_Entity> returnArray = new ArrayList<Hashtags_Entity>();
 		for (Entity e : entities) {

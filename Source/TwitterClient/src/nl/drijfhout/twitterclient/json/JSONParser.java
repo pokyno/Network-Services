@@ -19,15 +19,20 @@ import android.content.Context;
 import android.util.Log;
 
 public class JSONParser {
-	private ArrayList<Tweet> tweets;
+	private ArrayList<Tweet> tweets;// kan voor beide aanvragen gebruikt worden want ze bestaan toch nooit tegelijk
 	private Context context;
 	
 	public JSONParser(Context context){
 		tweets = new ArrayList<Tweet>();
 		this.context = context;
-		
 	}
 	
+	/**
+	 * geeft een user object terug met als invoer een json based String
+	 * @param userJSON json string met de user gegevens erin
+	 * @return het gemaakte user object
+	 * @throws IOException
+	 */
 	public User getUser(String userJSON) throws IOException {
 		User user = null;
 		BufferedReader br = null;
@@ -60,6 +65,12 @@ public class JSONParser {
 		return user;
 	}
 	
+	/**
+	 * geeft een lijst met user objecten terug met als invoer een json based String
+	 * @param usersJSON	json string met alle user gegevens erin
+	 * @return de lijst met gemaakte user objecten
+	 * @throws IOException
+	 */
 	public ArrayList<User> getUsers(String usersJSON) throws IOException{
 		ArrayList<User> userlist = new ArrayList<User>();
 		BufferedReader br = null;
@@ -93,29 +104,44 @@ public class JSONParser {
 		return userlist;
 	}
 	
-	public ArrayList<Tweet> getTweets(String filename){// tijdenlijk met file name
+	/**
+	 * geeft een lijst met Tweets(statusen) terug met als invoer een json based string
+	 * @param statusJSON json string met de statusen erin
+	 * @return	de lijst met de gemaakte Tweet objecten
+	 */
+	public ArrayList<Tweet> getTweets(String statusJSON){// tijdenlijk met file name
 		try {
-			readAssetIntoString(filename,false);
+			readAssetIntoString(statusJSON,false);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		return tweets;
 	}
 	
-	
-	public ArrayList<Tweet> getTimeLine(String filename){// tijdenlijk met file name
+	/**
+	 * geeft een lijst met Tweets(statusen) terug met als invoer een json based string
+	 * @param statusJSON json string met de statusen erin
+	 * @return	de lijst met de gemaakte Tweet objecten(time line)
+	 */
+	public ArrayList<Tweet> getTimeLine(String statusJSON){// tijdenlijk met file name
 		try {
-			readAssetIntoString(filename,true);
+			readAssetIntoString(statusJSON,true);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		return tweets;
 	}
 	
-	private String readAssetIntoString(String filename,boolean isTimeLine) throws IOException {
+	/**
+	 * leest de json uit en stopt de tweet objecten in de lijst(instantie variable)
+	 * @param filename de in te lezen json
+	 * @param isTimeLine geeft aan of het een timeline is of niet	
+	 * @throws IOException
+	 */
+	private void readAssetIntoString(String filename,boolean isTimeLine) throws IOException {
 		BufferedReader br = null;
 		StringBuilder sb = new StringBuilder();
-		String text = "";
+		
 		String line;
 		try {
 			InputStream is =  new ByteArrayInputStream(filename.getBytes(StandardCharsets.UTF_8));
@@ -126,7 +152,7 @@ public class JSONParser {
 			
 			try {
 				JSONArray statussen;
-				if(isTimeLine){
+				if(isTimeLine){//als het een timeline is moet minder gebeuren dus vandaar de isTimeLine
 					statussen = new JSONArray(sb.toString());
 				}else{
 					JSONObject status = new JSONObject(sb.toString());
@@ -155,8 +181,7 @@ public class JSONParser {
 					e.printStackTrace();
 				}
 			}
-		}
-		return text;		
+		}	
 	}
 	
 }

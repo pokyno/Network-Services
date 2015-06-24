@@ -33,9 +33,10 @@ public class Tweet {
 
 	public Tweet(JSONObject tweet, Context context) {
 		this.context = context;
+		// dit vult alle variabelen door ze zelf het werk te laten doen
 		try {
-			user = new User(tweet.getJSONObject("user")); // kijk of het handiger kan
-			entities = new Entities(tweet.getJSONObject("entities")); // fault
+			user = new User(tweet.getJSONObject("user"));
+			entities = new Entities(tweet.getJSONObject("entities"));
 			created_at = tweet.getString("created_at");
 			favorite_count = tweet.getInt("favorite_count");
 			retweet_count = tweet.getInt("retweet_count");
@@ -46,11 +47,11 @@ public class Tweet {
 		}
 
 	}
-	
-	public String getId(){
+
+	public String getId() {
 		return str_id;
 	}
-	
+
 	public Entities getEntities() {
 		return entities;
 	}
@@ -75,11 +76,19 @@ public class Tweet {
 		return retweet_count;
 	}
 
+	/**
+	 * dit spand een text zodat hij clickable(niet alles wordt clickable
+	 * gemaakt) wordt en kleurt ze
+	 * 
+	 * @param text  de te spannen text
+	 * @return de gespande text
+	 */
 	private Spannable spanText(String text) {
 		Spannable WordtoSpan = null;
 
 		ArrayList<Url_Entity> urls = entities.getUrls();
-		
+		// hier worden alle urls clickable gemaakt en ook wordt de onclick
+		// geregelt
 		if (urls.size() == 0 || urls == null) {
 			WordtoSpan = new SpannableString(text);
 		} else {
@@ -95,6 +104,8 @@ public class Tweet {
 
 					@Override
 					public void onClick(View widget) {
+						// als er op een item geclickt wordt dan wordt een
+						// webbrowser gestart op met aangegeven link
 						TextView tv = (TextView) widget;
 						Spanned s = (Spanned) tv.getText();
 						int start = s.getSpanStart(this);
@@ -113,31 +124,31 @@ public class Tweet {
 			}
 
 		}
-		
+		// voor alle hashtags wordt de kleur blauw gebruikt
 		ArrayList<Hashtags_Entity> hashtags = entities.getHashtags();
-		
+
 		if (hashtags != null) {
 			for (int h = 0; h < hashtags.size(); h++) {
 				Hashtags_Entity hashtag = hashtags.get(h);
 				int begin = hashtag.getindice(0);
 				int end = hashtag.getindice(1);
-				WordtoSpan.setSpan(new ForegroundColorSpan(Color.BLUE),	 // hashtags are the color blue
-						begin, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+				WordtoSpan.setSpan(new ForegroundColorSpan(Color.BLUE),	begin, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 			}
 		}
-		
-		ArrayList<User_Mentions_Entity> userMentions = entities.getUser_Mentions();
-		
+
+		// voor alle usermentions wordt de kleur cyan gebruikt
+		ArrayList<User_Mentions_Entity> userMentions = entities
+				.getUser_Mentions();
+
 		if (userMentions != null) {
 			for (int h = 0; h < userMentions.size(); h++) {
 				User_Mentions_Entity userMention = userMentions.get(h);
-				int begin = userMention.getindice(0) - 1;
+				int begin = userMention.getindice(0);
 				int end = userMention.getindice(1);
-				WordtoSpan.setSpan(new ForegroundColorSpan(Color.CYAN),  //user mentions are the color cyan
-						begin + 1, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+				WordtoSpan.setSpan(new ForegroundColorSpan(Color.CYAN),	begin, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 			}
 		}
-		
+
 		return WordtoSpan;
 
 	}
