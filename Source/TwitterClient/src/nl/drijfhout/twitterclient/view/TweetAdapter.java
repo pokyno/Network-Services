@@ -10,10 +10,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.net.Uri;
 import android.text.Spannable;
 import android.text.SpannableString;
-import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.util.Log;
@@ -63,6 +61,12 @@ public class TweetAdapter extends ArrayAdapter<Tweet> {
 		TextView name = (TextView) convertView.findViewById(R.id.tvName);
 		TextView text = (TextView) convertView.findViewById(R.id.tvText);
 		Button btnRetweet = (Button)convertView.findViewById(R.id.btnRetweet);
+		TextView createdAt = (TextView) convertView.findViewById(R.id.textViewCreatedAt);
+		TextView retweetCount = (TextView) convertView.findViewById(R.id.textViewRetweetCount);
+		TextView FavouriteCount = (TextView) convertView.findViewById(R.id.textViewFavouriteCount);
+		
+		
+		
 		if(userid != "" && !t.getUser().getStrId().equals(userid)){
 			btnRetweet.setVisibility(View.VISIBLE);
 		}else{
@@ -95,9 +99,13 @@ public class TweetAdapter extends ArrayAdapter<Tweet> {
 		
 		text.setMovementMethod(LinkMovementMethod.getInstance());
 		
+		createdAt.setText(t.getCreated_at());
+		FavouriteCount.setText("Favoutite count: "+ t.getFavorite_count());
+		retweetCount.setText("Retweet count: "+ t.getRetweet_count());
+		
 		username.setTextColor(Color.BLACK);
 		name.setTextColor(Color.BLACK);
-		text.setTextColor(Color.RED);
+		text.setTextColor(Color.BLACK);
 		
 		ImageView imageView = (ImageView) convertView.findViewById(R.id.imageView2);
 		if(t.getEntities().getMedia().size() != 0){

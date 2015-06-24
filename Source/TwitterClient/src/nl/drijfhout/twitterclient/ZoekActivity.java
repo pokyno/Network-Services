@@ -6,7 +6,6 @@ import java.util.Observer;
 import nl.drijfhout.twitterclient.model.TwitterModel;
 import nl.drijfhout.twitterclient.view.TweetAdapter;
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -31,7 +30,7 @@ public class ZoekActivity extends Activity implements Observer {
 		TwitterApplication app = (TwitterApplication) getApplicationContext();
 		model = app.getModel();
 		model.addObserver(this);
-		model.context = this; //om de context naar deze activitie te zetten
+		TwitterModel.context = this; //om de context naar deze activitie te zetten
 		
 		edtZoekterm = (EditText) findViewById(R.id.edtTweet);
 		if(model.getCurrentUser() != null){

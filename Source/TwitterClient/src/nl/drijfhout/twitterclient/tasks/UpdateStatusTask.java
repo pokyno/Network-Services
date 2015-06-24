@@ -4,9 +4,7 @@ import java.io.IOException;
 
 import nl.drijfhout.twitterclient.TwitterApplication;
 import nl.drijfhout.twitterclient.login.AuthorizationManager;
-import nl.drijfhout.twitterclient.model.TwitterModel;
 import oauth.signpost.exception.OAuthException;
-import oauth.signpost.http.HttpResponse;
 
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;

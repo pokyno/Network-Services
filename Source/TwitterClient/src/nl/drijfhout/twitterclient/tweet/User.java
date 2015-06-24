@@ -12,7 +12,6 @@ import nl.drijfhout.twitterclient.model.TwitterModel;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -22,10 +21,15 @@ public class User {
 	private String name, screen_name;
 	private Bitmap profile_image;
 	private String id_str;
-	private TwitterModel model;
+	private TwitterModel model; //gebruiken we om te refreshen als de fotos binnen komen
 	private String beschrijving;
 	private String url;
-	private String locatie; 
+	private String locatie;
+	
+	private int followers_count;
+	private int friends_count;
+	
+	
 	
 	public User(JSONObject user){
 		
@@ -39,6 +43,8 @@ public class User {
 			beschrijving = user.getString("description");
 			url = user.getString("url");
 			locatie = user.getString("location");
+			friends_count = user.getInt("friends_count");
+			followers_count = user.getInt("followers_count");
 			
 		} catch (JSONException e) {
 			e.printStackTrace();
@@ -76,6 +82,11 @@ public class User {
 		return profile_image;
 	}
 	
+	/**
+	 * deze async word gebruikt om een profile foto van het net op te halen
+	 * @author pietervanberkel
+	 *
+	 */
 	public class DownloadImagesTask extends AsyncTask<String, Void, Bitmap> {
 
 		@Override
@@ -116,5 +127,12 @@ public class User {
 	@Override
 	public String toString(){
 		return name + " " + screen_name;
+	}
+	public int getFollowersCount() {
+		return followers_count;
+	}
+	
+	public int getFollowingCount() {
+		return friends_count;
 	}
 }

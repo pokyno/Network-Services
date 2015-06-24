@@ -16,11 +16,9 @@ import android.os.AsyncTask;
 
 public class RetweetTask extends AsyncTask<String,Void,Void> {
 
-	private Context context;
 	private AuthorizationManager manager;
 	
 	public RetweetTask(Context context){
-		this.context = context;
 		TwitterApplication app = (TwitterApplication) context.getApplicationContext();
 		this.manager = app.getAuthorizationManager();
 	}

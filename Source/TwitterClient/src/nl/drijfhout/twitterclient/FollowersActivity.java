@@ -7,8 +7,6 @@ import nl.drijfhout.twitterclient.model.TwitterModel;
 import nl.drijfhout.twitterclient.view.UserAdapter;
 import android.app.Activity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.ListView;
 
 public class FollowersActivity extends Activity implements Observer{
@@ -23,7 +21,7 @@ public class FollowersActivity extends Activity implements Observer{
 		TwitterApplication app = (TwitterApplication) getApplicationContext();
 		model = app.getModel();
 		model.addObserver(this);
-		model.context = this;  //om de context naar deze activitie te zetten
+		TwitterModel.context = this;  //om de context naar deze activitie te zetten
 		model.pullFollowers();
 		
 		adapter = new UserAdapter(this, 0, model.getFollowers());

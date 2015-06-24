@@ -19,14 +19,12 @@ public class EditProfileTask extends AsyncTask<Void,Void,Void> {
 
 	private String naam,url,locatie,beschrijving;
 	private AuthorizationManager manager;
-	private Context context;
 	
 	public EditProfileTask(String naam,String url,String locatie,String beschrijving,Context context){
 		this.naam = naam;
 		this.url = url;
 		this.locatie = locatie;
 		this.beschrijving = beschrijving;
-		this.context = context;
 		TwitterApplication app = (TwitterApplication) context.getApplicationContext();
 		this.manager = app.getAuthorizationManager();
 		

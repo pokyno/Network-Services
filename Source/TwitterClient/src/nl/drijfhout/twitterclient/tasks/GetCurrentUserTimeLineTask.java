@@ -15,7 +15,6 @@ import nl.drijfhout.twitterclient.json.JSONParser;
 import nl.drijfhout.twitterclient.login.AuthorizationManager;
 import nl.drijfhout.twitterclient.model.TwitterModel;
 import nl.drijfhout.twitterclient.tweet.Tweet;
-import nl.drijfhout.twitterclient.tweet.User;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;

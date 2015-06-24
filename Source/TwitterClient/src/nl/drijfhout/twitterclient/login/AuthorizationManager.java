@@ -1,19 +1,14 @@
 package nl.drijfhout.twitterclient.login;
 
-import java.net.URLDecoder;
 import java.util.concurrent.ExecutionException;
 
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpRequestBase;
 
 import oauth.signpost.OAuthConsumer;
 import oauth.signpost.OAuthProvider;
 import oauth.signpost.commonshttp.CommonsHttpOAuthConsumer;
 import oauth.signpost.commonshttp.CommonsHttpOAuthProvider;
-import oauth.signpost.exception.OAuthCommunicationException;
 import oauth.signpost.exception.OAuthException;
-import oauth.signpost.exception.OAuthExpectationFailedException;
-import oauth.signpost.exception.OAuthMessageSignerException;
 import android.util.Log;
 import nl.drijfhout.twitterclient.tasks.GetRequestTokenTask;
 import nl.drijfhout.twitterclient.tasks.RetrieveAccessTokenTask;
@@ -86,7 +81,6 @@ public class AuthorizationManager {
 	}
 
 	public void signWithUserToken(HttpRequestBase request) throws OAuthException {
-		assert isUserLoggedIn() : "User	not	logged	in";
 		consumer.sign(request);
 	}
 

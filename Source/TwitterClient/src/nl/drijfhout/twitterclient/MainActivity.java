@@ -4,17 +4,14 @@ import java.util.Observable;
 import java.util.Observer;
 
 import nl.drijfhout.twitterclient.model.TwitterModel;
-import nl.drijfhout.twitterclient.view.TweetAdapter;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ListView;
+
 
 public class MainActivity extends Activity implements Observer {
 
@@ -37,7 +34,7 @@ public class MainActivity extends Activity implements Observer {
 		app = (TwitterApplication) getApplicationContext();
 		model = app.getModel();
 		model.addObserver(this);
-		model.context = this; //om de context naar deze activitie te zetten
+		TwitterModel.context = this; //om de context naar deze activitie te zetten
 		btnEditProfile = (Button)findViewById(R.id.btnEditProfile);
 		btnZoek = (Button)findViewById(R.id.BtnZoekActivity);
 		btnTweet = (Button)findViewById(R.id.btnpostTweet);

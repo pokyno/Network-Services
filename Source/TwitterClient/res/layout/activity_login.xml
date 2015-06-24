@@ -6,7 +6,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="nl.drijfhout.twitterclient.LoginActivity" >
+    tools:context="nl.drijfhout.twitterclient.LoginActivity"
+    android:background="#BAB8B8"  >
 
     <WebView
         android:id="@+id/webView1"

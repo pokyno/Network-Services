@@ -5,8 +5,6 @@ import nl.drijfhout.twitterclient.tasks.EditProfileTask;
 import nl.drijfhout.twitterclient.tweet.User;
 import android.app.Activity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -31,7 +29,6 @@ public class EditProfile extends Activity {
 		
 		User ik = model.getCurrentUser();
 		edtName.setText(ik.getname());
-		edtURL.setText(ik.getURL());
 		edtLocatie.setText(ik.getLocatie());
 		edtBeschrijving.setText(ik.getBeschrijving());
 		btnEditProfile = (Button)findViewById(R.id.btnEditProfile);

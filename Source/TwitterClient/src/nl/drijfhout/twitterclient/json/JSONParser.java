@@ -28,62 +28,10 @@ public class JSONParser {
 		
 	}
 	
-	public ArrayList<Tweet> getTweets(String filename){// tijdenlijk met file name
-		try {
-			readAssetIntoString(filename);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return tweets;
-	}
-	
-	private String readAssetIntoString(String filename) throws IOException {
-		BufferedReader br = null;
-		StringBuilder sb = new StringBuilder();
-		String text = "";
-		String line;
-		try {
-			InputStream is =  new ByteArrayInputStream(filename.getBytes(StandardCharsets.UTF_8));
-			br = new BufferedReader(new InputStreamReader(is));
-			while ((line = br.readLine()) != null) {
-				sb.append(line);
-			}
-			
-			try {
-				JSONObject status = new JSONObject(sb.toString());
-				JSONArray statussen = status.getJSONArray("statuses");
-				
-				for(int i = 0; i<statussen.length();i++){
-					JSONObject tweet = statussen.getJSONObject(i);
-					tweets.add(new Tweet(tweet, context));
-				}
-				
-				
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-		} catch (IOException e) {
-			e.printStackTrace();
-            throw e;
-		} finally {
-			if (br != null) {
-				try {
-					br.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-		return text;		
-	}
-
 	public User getUser(String userJSON) throws IOException {
 		User user = null;
 		BufferedReader br = null;
 		StringBuilder sb = new StringBuilder();
-		String text = "";
 		String line;
 		try {
 			InputStream is =  new ByteArrayInputStream(userJSON.getBytes(StandardCharsets.UTF_8));
@@ -116,7 +64,6 @@ public class JSONParser {
 		ArrayList<User> userlist = new ArrayList<User>();
 		BufferedReader br = null;
 		StringBuilder sb = new StringBuilder();
-		String text = "";
 		String line;
 		try {
 			InputStream is =  new ByteArrayInputStream(usersJSON.getBytes(StandardCharsets.UTF_8));
@@ -146,18 +93,26 @@ public class JSONParser {
 		return userlist;
 	}
 	
-	
-	//kan ook in een ff overleggen met frank
-	public ArrayList<Tweet> getTimeLine(String filename){// tijdenlijk met file name
+	public ArrayList<Tweet> getTweets(String filename){// tijdenlijk met file name
 		try {
-			readTimeLineAssetsIntoString(filename);
+			readAssetIntoString(filename,false);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		return tweets;
 	}
 	
-	private String readTimeLineAssetsIntoString(String filename) throws IOException {
+	
+	public ArrayList<Tweet> getTimeLine(String filename){// tijdenlijk met file name
+		try {
+			readAssetIntoString(filename,true);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return tweets;
+	}
+	
+	private String readAssetIntoString(String filename,boolean isTimeLine) throws IOException {
 		BufferedReader br = null;
 		StringBuilder sb = new StringBuilder();
 		String text = "";
@@ -170,7 +125,13 @@ public class JSONParser {
 			}
 			
 			try {
-				JSONArray statussen = new JSONArray(sb.toString());
+				JSONArray statussen;
+				if(isTimeLine){
+					statussen = new JSONArray(sb.toString());
+				}else{
+					JSONObject status = new JSONObject(sb.toString());
+					statussen = status.getJSONArray("statuses");
+				}
 				
 				for(int i = 0; i<statussen.length();i++){
 					JSONObject tweet = statussen.getJSONObject(i);
@@ -197,7 +158,5 @@ public class JSONParser {
 		}
 		return text;		
 	}
-	
-	
 	
 }

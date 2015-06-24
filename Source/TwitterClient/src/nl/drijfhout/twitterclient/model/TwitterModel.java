@@ -2,7 +2,6 @@ package nl.drijfhout.twitterclient.model;
 
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Observable;
 import java.util.concurrent.ExecutionException;
@@ -10,9 +9,6 @@ import java.util.concurrent.ExecutionException;
 import android.content.Context;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import nl.drijfhout.twitterclient.LoginActivity;
-import nl.drijfhout.twitterclient.TwitterApplication;
-import nl.drijfhout.twitterclient.login.AuthorizationManager;
 import nl.drijfhout.twitterclient.tasks.GetCurrentUserTimeLineTask;
 import nl.drijfhout.twitterclient.tasks.GetFollowersTask;
 import nl.drijfhout.twitterclient.tasks.GetFriendsTask;
@@ -43,7 +39,7 @@ public class TwitterModel extends Observable{
 	public ArrayList<Tweet> tweets;//comment
 	
 	public TwitterModel(Context context){
-		this.context = context;
+		TwitterModel.context = context;
 		GetTokenTask taak = new GetTokenTask();
 		user_token = PreferenceManager.getDefaultSharedPreferences(context).getString("TOKEN", "");
 		Log.d("token!!", user_token);

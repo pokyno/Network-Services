@@ -12,7 +12,6 @@ import nl.drijfhout.twitterclient.model.TwitterModel;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;

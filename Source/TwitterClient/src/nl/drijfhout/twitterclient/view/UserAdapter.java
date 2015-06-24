@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class UserAdapter extends ArrayAdapter<User>{
@@ -48,15 +49,31 @@ public class UserAdapter extends ArrayAdapter<User>{
 		
 		TextView username = (TextView) convertView.findViewById(R.id.textViewUsername);
 		TextView name = (TextView) convertView.findViewById(R.id.textViewName);
+		TextView beschrijving = (TextView) convertView.findViewById(R.id.textViewBeschrijving);
+		TextView followers = (TextView) convertView.findViewById(R.id.textViewFollwers);
+		TextView following = (TextView) convertView.findViewById(R.id.textViewFollowing);
+		
+		LinearLayout namelayout = (LinearLayout) convertView.findViewById(R.id.nameLayout);
+		if(user.getScreen_name().length() + user.getname().length() > 25){
+			namelayout.setOrientation(LinearLayout.VERTICAL);
+		}else{
+			namelayout.setOrientation(LinearLayout.HORIZONTAL);
+		}
+		
 		
 		username.setMovementMethod(LinkMovementMethod.getInstance());
 		name.setMovementMethod(LinkMovementMethod.getInstance());
+		beschrijving.setText(user.getBeschrijving());
+		followers.setText("Followers count: "+user.getFollowersCount());
+		following.setText("Following count: "+user.getFollowingCount());
 		
 		username.setText(spanText(user.getScreen_name(),user.getStrId()));
 		name.setText(spanText(user.getname(),user.getStrId()));
 		
 		username.setTextColor(Color.BLACK);
 		name.setTextColor(Color.BLACK);
+		
+		
 		
 		return convertView;
 	}

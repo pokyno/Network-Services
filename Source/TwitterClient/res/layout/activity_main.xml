@@ -8,7 +8,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="nl.drijfhout.twitterclient.MainActivity" >
+    tools:context="nl.drijfhout.twitterclient.MainActivity" 
+    android:background="#BAB8B8" >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,54 +19,54 @@
 
     <Button
         android:id="@+id/BtnLogin"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Login" />
 
     <Button
         android:id="@+id/buttonProfile"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Profile"
         android:visibility="gone" />
 
     <Button
         android:id="@+id/btnpostTweet"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Post tweet"
         android:visibility="gone" />
 
     <Button
         android:id="@+id/BtnZoekActivity"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Zoek" />
 
     <Button
         android:id="@+id/btnEditProfile"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Wijzig profiel"
         android:visibility="gone" />
 
     <Button
         android:id="@+id/buttonFriends"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="friends"
         android:visibility="gone" />
     
     <Button
         android:id="@+id/buttonFollowers"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="followers"
         android:visibility="gone" />
 
     <Button
         android:id="@+id/BtnLoguit"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Log uit"
         android:visibility="gone" />
