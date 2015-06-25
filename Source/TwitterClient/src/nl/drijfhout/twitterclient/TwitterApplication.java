@@ -13,8 +13,12 @@ public class TwitterApplication extends Application{
 	public void onCreate() {
 		super.onCreate();
 		manager = new AuthorizationManager();
-		manager.init();
 		model = new TwitterModel(getApplicationContext());
+	}
+	
+	public void initAuthentication(){
+		
+		manager.init();
 	}
 	
 	public AuthorizationManager getAuthorizationManager(){
