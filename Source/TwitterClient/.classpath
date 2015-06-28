@@ -6,7 +6,7 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="gen"/>
-	<classpathentry exported="true" kind="lib" path="C:/Users/Pieter/Documents/GitHub/Network-Services/Files/signpost-core-1.2.1.2.jar"/>
-	<classpathentry exported="true" kind="lib" path="C:/Users/Pieter/Documents/GitHub/Network-Services/Files/signpost-commonshttp4-1.2.1.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="libs/signpost-commonshttp4-1.2.1.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="libs/signpost-core-1.2.1.2.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
