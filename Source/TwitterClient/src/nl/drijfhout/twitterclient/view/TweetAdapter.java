@@ -30,6 +30,7 @@ public class TweetAdapter extends ArrayAdapter<Tweet> {
 	private LayoutInflater inflater;
 	private Context context;
 	String userid = "";
+	private boolean isIngelogd;
 
 	/**
 	 * maakt een tweet adapter aan deze wordt versie alleen gebruikt voor tweets
@@ -39,10 +40,11 @@ public class TweetAdapter extends ArrayAdapter<Tweet> {
 	 * @param resource
 	 * @param objects
 	 */
-	public TweetAdapter(Context context, int resource, List<Tweet> objects) {
+	public TweetAdapter(Context context, int resource, List<Tweet> objects,boolean isIngelogd) {
 		super(context, resource, objects);
 		this.context = context;
 		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		this.isIngelogd = isIngelogd;
 	}
 
 	/**
@@ -54,11 +56,12 @@ public class TweetAdapter extends ArrayAdapter<Tweet> {
 	 * @param objects
 	 * @param id       current user id
 	 */
-	public TweetAdapter(Context context, int resource, List<Tweet> objects,	String id) {
+	public TweetAdapter(Context context, int resource, List<Tweet> objects,	String id,boolean isIngelogd) {
 		super(context, resource, objects);
 		this.context = context;
 		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		userid = id;
+		this.isIngelogd = isIngelogd;
 	}
 
 	public View getView(int position, View convertView, ViewGroup parent) {
@@ -82,13 +85,18 @@ public class TweetAdapter extends ArrayAdapter<Tweet> {
 		TextView retweetCount = (TextView) convertView.findViewById(R.id.textViewRetweetCount);
 		TextView FavouriteCount = (TextView) convertView.findViewById(R.id.textViewFavouriteCount);
 
+		if(isIngelogd){
+			username.setMovementMethod(LinkMovementMethod.getInstance());
+			name.setMovementMethod(LinkMovementMethod.getInstance());
 		// controle zodat je jezelf niet kan retweeten
 		if (userid != "" && !t.getUser().getStrId().equals(userid)) {
 			btnRetweet.setVisibility(View.VISIBLE);
 		} else {
 			btnRetweet.setVisibility(View.GONE);
 		}
-
+		}else{
+			btnRetweet.setVisibility(View.GONE);
+		}
 		btnRetweet.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -105,8 +113,7 @@ public class TweetAdapter extends ArrayAdapter<Tweet> {
 
 		});
 
-		username.setMovementMethod(LinkMovementMethod.getInstance());
-		name.setMovementMethod(LinkMovementMethod.getInstance());
+		
 
 		username.setText(spanText(t.getUser().getScreen_name(), t.getUser().getStrId()));
 		name.setText(spanText(t.getUser().getname(), t.getUser().getStrId()));

@@ -35,9 +35,9 @@ public class ZoekActivity extends Activity implements Observer {
 		
 		//kijkt of de user is ingelogd
 		if(model.getCurrentUser() != null){
-			adapter = new TweetAdapter(this,0,model.getTweets(),model.getCurrentUser().getStrId());
+			adapter = new TweetAdapter(this,0,model.getTweets(),model.getCurrentUser().getStrId(),model.isLoggedIn());
 		}else{
-			adapter = new TweetAdapter(this,0,model.getTweets());	
+			adapter = new TweetAdapter(this,0,model.getTweets(),model.isLoggedIn());	
 		}
 		
 		listView = (ListView) findViewById(R.id.listViewTimeLine);

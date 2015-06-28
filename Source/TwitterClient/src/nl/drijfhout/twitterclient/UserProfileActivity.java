@@ -81,7 +81,7 @@ public class UserProfileActivity extends Activity implements Observer{
 		username.setTextColor(Color.BLACK);
 		name.setTextColor(Color.BLACK);
 		
-		adapter = new TweetAdapter(this, 0, model.getUserTimeLine(),model.getCurrentUser().getStrId());
+		adapter = new TweetAdapter(this, 0, model.getUserTimeLine(),model.getCurrentUser().getStrId(),model.isLoggedIn());
 		ListView listViewTimeLine = (ListView) findViewById(R.id.listViewTimeLine);
 		listViewTimeLine.setAdapter(adapter);
 		
